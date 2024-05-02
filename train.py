@@ -14,6 +14,7 @@ param = com.yaml_load()
 ########################################################################
 
 def main():
+    debugpy.breakpoint()
     parser = com.get_argparse()
     # read parameters from yaml
     flat_param = com.param_to_args_list(params=param)
@@ -22,17 +23,8 @@ def main():
     args = parser.parse_args(namespace=args)
     print(args)
 
-    if args.train_only and args.test_only:
-        raise ValueError("--train_only and --test_only cannot be used together.")
-    elif args.train_only:
-        train = True
-        test = False
-    elif args.test_only:
-        train = False
-        test = True
-    else:
-        train = True
-        test = True
+    train = True
+    test = False
     
     args.cuda = args.use_cuda and torch.cuda.is_available()
 
@@ -58,9 +50,6 @@ def main():
     print("============== BEGIN TRAIN ==============")
     if train:
         for epoch in range(1, args.epochs + 2):
-            debugpy.listen(5678)
-            debugpy.wait_for_client()
-            debugpy.breakpoint()
             net.train(epoch)
     print("============ END OF TRAIN ============")
     
