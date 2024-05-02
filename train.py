@@ -1,6 +1,7 @@
 import random
 import numpy as np
 import torch
+import debugpy
 
 # original lib
 import common as com
@@ -57,6 +58,9 @@ def main():
     print("============== BEGIN TRAIN ==============")
     if train:
         for epoch in range(1, args.epochs + 2):
+            debugpy.listen(5678)
+            debugpy.wait_for_client()
+            debugpy.breakpoint()
             net.train(epoch)
     print("============ END OF TRAIN ============")
     
