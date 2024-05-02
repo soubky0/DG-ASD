@@ -23,7 +23,7 @@ class DCASE202XT2(object):
             data_path = f'{args.dataset_directory}/{dataset_name.lower()}/eval_data/'
             data_type = "eval"
         elif args.dev:
-            data_path = f'{args.dataset_directory}/{dataset_name.lower()}/dev_data/'
+            data_path = f'{args.dataset_directory}/dev_data/'
             data_type = "dev"
         else:
             print("incorrect argument")
