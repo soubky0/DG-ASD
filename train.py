@@ -1,7 +1,6 @@
 import random
 import numpy as np
 import torch
-import debugpy
 
 # original lib
 import common as com
@@ -14,7 +13,6 @@ param = com.yaml_load()
 ########################################################################
 
 def main():
-    debugpy.breakpoint()
     parser = com.get_argparse()
     # read parameters from yaml
     flat_param = com.param_to_args_list(params=param)
