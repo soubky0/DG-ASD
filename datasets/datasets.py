@@ -16,21 +16,19 @@ class DCASE202XT2(object):
         batch_sampler = None
         batch_size = args.batch_size
         print("input dim: %d" % (self.input_dim))
+
         dataset_name = args.dataset[:11]
         machine_type = args.dataset[11:]
-        
-        data_path = f'{args.dataset_directory}/dev_data/'
-        data_type = "dev"
-
-        # if args.eval:
-        #     data_path = f'{args.dataset_directory}/{dataset_name.lower()}/eval_data/'
-        #     data_type = "eval"
-        # elif args.dev:
-        #     
-        # else:
-        #     print("incorrect argument")
-        #     print("please set option argument '--dev' or '--eval'")
-        #     sys.exit()
+        if args.eval:
+            data_path = f'{args.dataset_directory}/{dataset_name.lower()}/eval_data/'
+            data_type = "eval"
+        elif args.dev:
+            data_path = f'{args.dataset_directory}/dev_data/'
+            data_type = "dev"
+        else:
+            print("incorrect argument")
+            print("please set option argument '--dev' or '--eval'")
+            sys.exit()
 
         self.machine_type_dict = get_machine_type_dict(dataset_name, mode=args.dev)["machine_type"]
         self.section_id_list = self.machine_type_dict[machine_type][data_type]
