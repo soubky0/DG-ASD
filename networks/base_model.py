@@ -18,7 +18,6 @@ class BaseModel(object):
         print("selected gpu id:{}".format(args.gpu_id))
         self.device = torch.device("cuda" if args.cuda else "cpu",args.gpu_id[0])
         print(self.device)
-        self.args.dataset = 'DCASE2023T2gearbox'
         try: 
             self.data = Datasets(self.args.dataset).data(self.args)
         except KeyError: 

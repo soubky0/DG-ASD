@@ -19,18 +19,19 @@ class DCASE202XT2(object):
 
         dataset_name = args.dataset[:11]
         machine_type = args.dataset[11:]
-        data_path = f'{args.dataset_directory}/dev_data/'
+        data_path = f'{args.dataset_directory}dev_data/'
         data_type = "dev"
+        
         if args.eval:
             data_path = f'{args.dataset_directory}/{dataset_name.lower()}/eval_data/'
             data_type = "eval"
 
-        self.machine_type_dict = get_machine_type_dict(dataset_name, mode=args.dev)["machine_type"]
+        self.machine_type_dict = get_machine_type_dict(dataset_name)["machine_type"]
         self.section_id_list = self.machine_type_dict[machine_type][data_type]
         self.num_classes = len(self.section_id_list)
         print("num classes: %d" % (self.num_classes))
         self.id_list = [int(machine_id) for machine_id in self.section_id_list]
-        section_keyword = get_machine_type_dict(dataset_name, mode=args.dev)["section_keyword"]
+        section_keyword = get_machine_type_dict(dataset_name)["section_keyword"]
         train_data = DCASE202XT2Loader(
                 data_path,
                 dataset_name=dataset_name,

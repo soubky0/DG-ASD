@@ -1,7 +1,7 @@
 --dataset_directory: ./
 --result_directory: ./results
 --export_dir: baseline
-
+--dataset: DCASE2023T2gearbox
 --use_cuda: True
 --log_interval: 100
 --model: DCASE2023T2-AE
