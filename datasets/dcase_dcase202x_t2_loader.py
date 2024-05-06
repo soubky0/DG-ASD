@@ -357,9 +357,9 @@ def file_list_to_data(file_list,
                                                 fmin=fmin,
                                                 win_length=win_length)
         vectors = vectors[: : n_hop_frames, :]
-        vectors2 = apply_pitch_shift(vectors)
-        
-        vectors = np.concatenate((vectors, vectors2))
+        # vectors2 = apply_pitch_shift(vectors)
+        # 
+        # vectors = np.concatenate((vectors, vectors2))
         if idx == 0:
             data = np.zeros((len(file_list) * vectors.shape[0], dims), float)
         if len(file_list) * vectors.shape[0] > data.shape[0]:
