@@ -20,7 +20,7 @@ for filename in os.listdir(input_dir):
     wavfile = wav.read(f)
     a = np.array(wavfile[1], dtype="float32")
     augmented_sound = transform(a, sample_rate=16000)
-    filename = filename.split(".")[0] + "_augmented.wav"
+    filename = filename.replace("_normal_", "_anomaly_")
     f = os.path.join(output_dir, filename)
     wav.write(f, 16000, augmented_sound)
 
