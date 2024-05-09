@@ -83,15 +83,15 @@ def augment_audio(input_dir, output_dir):
     print("============== END OF AUGMENTATION ==============")
 
 def main():
+    try:
+        shutil.rmtree(os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train'))
+    except FileNotFoundError:
+        pass
+    os.makedirs(os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train'))
     input_directory = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'normal')
     output_directory = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train')
     
     augment_audio(input_directory, output_directory)
 
 if __name__ == "__main__":
-    try:
-        shutil.rmtree(os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train'))
-    except FileNotFoundError:
-        pass
-    os.makedirs(os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train'))
     main()
