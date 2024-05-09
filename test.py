@@ -17,6 +17,8 @@ def parse_args():
     # read parameters from yaml
     flat_param = com.param_to_args_list(params=param)
     args = parser.parse_args(args=flat_param)
+    # read parameters from command line
+    args = parser.parse_args(namespace=args)
     
     args.cuda = args.use_cuda and torch.cuda.is_available()
 
@@ -35,18 +37,13 @@ def parse_args():
 def main():
     args = parse_args()
 
-    print(args)
-
     net = Models(args.model).net(
         args=args,
-        train=True,
-        test=False
+        train=False,
+        test=True
     )
 
-    print("============== BEGIN TRAIN ==============")
-    for epoch in range(1, args.epochs + 2):
-        net.train(epoch)
-    print("============ END OF TRAIN ============")
-    
+    net.test()
+
 if __name__ == "__main__":
     main()

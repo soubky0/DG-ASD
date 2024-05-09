@@ -299,7 +299,11 @@ class DCASE2023T2AE(BaseModel):
         else:
             decision_threshold = self.calc_decision_threshold(score_distr_file_path=self.mse_score_distr_file_path)
         
-        dir_name = "test"
+        if self.args.demo:
+            dir_name = "uploads"
+        else:
+            dir_name = "test"
+        
         inv_cov_source, inv_cov_target = calc_inv_cov(
             model=self.model,
             device=self.device
