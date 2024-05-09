@@ -24,7 +24,11 @@ def upload_file():
 @app.route('/test', methods=['POST'])
 def test():
     if request.method == 'POST':
-        return model_test()
+        try:
+            model_test()
+            return jsonify({'message': 'Model tested successfully'})
+        except Exception as e:
+            return str(e), 400
     
 if __name__ == '__main__':
     
