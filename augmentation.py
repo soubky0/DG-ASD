@@ -5,7 +5,7 @@ import os
 
 dir = "/home/omar/Uni/bachelor/my-src/dev_data/raw/gearbox/"
 input_dir = dir + "normal"
-output_dir = dir +"augmented"
+output_dir = dir + "augmented"
 final_dir = dir + "train"
 
 transform = TimeMask(
@@ -28,7 +28,7 @@ for f in os.listdir(input_dir):
     src_path = os.path.join(input_dir, f)
     dst_path = os.path.join(final_dir, f)
     os.rename(src_path, dst_path)
-    
+
 for f in os.listdir(output_dir):
     src_path = os.path.join(output_dir, f)
     dst_path = os.path.join(final_dir, f)

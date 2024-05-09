@@ -12,6 +12,7 @@ from networks.models import Models
 param = com.yaml_load()
 ########################################################################
 
+
 def parse_args():
     parser = com.get_argparse()
     # read parameters from yaml
@@ -19,7 +20,7 @@ def parse_args():
     args = parser.parse_args(args=flat_param)
     # read parameters from command line
     args = parser.parse_args(namespace=args)
-    
+
     args.cuda = args.use_cuda and torch.cuda.is_available()
 
     # Python random
@@ -34,16 +35,14 @@ def parse_args():
 
     return args
 
+
 def main():
     args = parse_args()
 
-    net = Models(args.model).net(
-        args=args,
-        train=False,
-        test=True
-    )
+    net = Models(args.model).net(args=args, train=False, test=True)
 
     net.test()
+
 
 def model_test():
     args = parse_args()
@@ -52,13 +51,10 @@ def model_test():
 
     print(args)
 
-    net = Models(args.model).net(
-        args=args,
-        train=False,
-        test=True
-    )
+    net = Models(args.model).net(args=args, train=False, test=True)
 
     return net.test()
+
 
 if __name__ == "__main__":
     main()
