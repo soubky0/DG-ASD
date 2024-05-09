@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 
-from test import main as model_test
+from test import model_test
 import os
 
 app = Flask(__name__)

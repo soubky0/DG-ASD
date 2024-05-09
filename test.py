@@ -45,5 +45,20 @@ def main():
 
     net.test()
 
+def model_test():
+    args = parse_args()
+
+    args.demo = True
+
+    print(args)
+
+    net = Models(args.model).net(
+        args=args,
+        train=False,
+        test=True
+    )
+
+    return net.test()
+
 if __name__ == "__main__":
     main()

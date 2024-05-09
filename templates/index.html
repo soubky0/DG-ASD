@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Uploader</title>
+    <title>ASD demo</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4">File Uploader</h1>
+        <h1 class="mb-4">Anomalous Sound Detector System</h1>
         <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="file">Choose File</label>
                 <input type="file" class="form-control-file" name="file" id="file">
+            </div>
+            <div id="message">
             </div>
         </form>
         <form id="testForm" action="/test" method="POST" enctype="multipart/form-data">
@@ -35,6 +37,23 @@
 
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/upload', true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    document.getElementById('message').innerHTML = '<div class="alert alert-success" role="alert">' + response.message + '</div>';
+                } else {
+                    document.getElementById('message').innerHTML = '<div class="alert alert-danger" role="alert">Error uploading file</div>';
+                }
+            };
+
+            xhr.send(formData);
+        });
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            var formData = new FormData(document.getElementById('testForm'));
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/test', true);
 
             xhr.onload = function () {
                 if (xhr.status === 200) {
