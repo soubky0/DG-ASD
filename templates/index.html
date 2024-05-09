@@ -34,6 +34,7 @@
     <script>
         document.getElementById('uploadForm').addEventListener('change', function() {
             var formData = new FormData(document.getElementById('uploadForm'));
+            document.getElementById("file").disabled=true;
 
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/upload', true);
