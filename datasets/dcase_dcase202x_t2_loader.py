@@ -7,8 +7,6 @@ import fasteners
 from pathlib import Path
 import time
 import datetime
-from audiomentations import TimeMask
-
 from datasets import loader_common as com
 
 
@@ -406,9 +404,7 @@ def file_list_to_data(
             win_length=win_length,
         )
         vectors = vectors[::n_hop_frames, :]
-        # vectors2 = apply_pitch_shift(vectors)
-        #
-        # vectors = np.concatenate((vectors, vectors2))
+        
         if idx == 0:
             data = np.zeros((len(file_list) * vectors.shape[0], dims), float)
         if len(file_list) * vectors.shape[0] > data.shape[0]:
@@ -420,39 +416,3 @@ def file_list_to_data(
     return data
 
 
-def apply_pitch_shift(data, pitch_shift_semitones=1, max_shift_length=100):
-    """
-    Function to apply pitch shift to data
-    """
-    # Create a copy of data
-    pitch_shift = np.copy(data)
-
-    # Check if data is a NumPy array
-    if isinstance(data, np.ndarray):
-        # Iterate over each vector
-        for i in range(len(data)):
-            # Check if pitch shift should be applied
-            if np.random.rand() < pitch_shift_semitones:
-                # Generate random pitch length and start index
-                pitch_length = np.random.randint(1, max_shift_length)
-                start_idx = np.random.randint(0, data.shape[1] - pitch_length)
-
-                # Apply pitch shift
-                pitch_shift[i, start_idx : start_idx + pitch_length] = 0
-
-    return pitch_shift
-
-
-def apply_time_masking(data):
-    """
-    Function to apply time masking to data
-    """
-    transform = TimeMask(
-        min_band_part=0.1,
-        max_band_part=0.15,
-        fade=False,
-        p=1.0,
-    )
-    time_masking = transform(data, sample_rate=16000)
-
-    return time_masking

@@ -1,6 +1,7 @@
 import random
 import numpy as np
 import torch
+from augmentation import main as augment
 
 # original lib
 import common as com
@@ -48,4 +49,5 @@ def main():
 
 
 if __name__ == "__main__":
+    augment()
     main()
