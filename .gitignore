@@ -4,4 +4,4 @@ __pycache__/
 *.pyc
 baseline.log
 env/
-dev_data/
+dev_data/raw/
