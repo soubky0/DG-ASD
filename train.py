@@ -35,9 +35,9 @@ def parse_args():
     return args
 
 
-def main():
+def main(tag=0):
     args = parse_args()
-
+    args.tag = tag
     print(args)
 
     net = Models(args.model).net(args=args, train=True, test=False)
@@ -49,5 +49,7 @@ def main():
 
 
 if __name__ == "__main__":
-    augment()
-    main()
+    for i in range(10,1000):
+        print(F"============== MASKING FACTOR {i} ==============")
+        augment(i)
+        main(i)

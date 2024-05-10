@@ -5,7 +5,7 @@ import scipy.io.wavfile as wavfile
 import shutil
 from tqdm import tqdm
 
-def time_masking(audio, mask_factor=10):
+def time_masking(audio, mask_factor):
     """
     Apply time masking to the audio.
     
@@ -49,7 +49,7 @@ def save_audio(file_path, audio, sr):
     """
     wavfile.write(file_path, sr, audio)
 
-def augment_audio(input_dir, output_dir):
+def augment_audio(input_dir, output_dir, mask_factor):
     """
     Augment audio files in the input directory and save them to the output directory.
     
@@ -69,7 +69,7 @@ def augment_audio(input_dir, output_dir):
             audio, sr = load_audio(input_file_path)
 
             # Apply time masking augmentation
-            augmented_audio = time_masking(audio)
+            augmented_audio = time_masking(audio, mask_factor)
 
             # Generate output file path
             output_file_path = os.path.join(output_dir, filename.replace("_normal_", "_anomaly_"))
@@ -82,7 +82,7 @@ def augment_audio(input_dir, output_dir):
 
     print("============== END OF AUGMENTATION ==============")
 
-def main():
+def main(mask_factor=10):
     try:
         shutil.rmtree(os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train'))
     except FileNotFoundError:
@@ -91,7 +91,7 @@ def main():
     input_directory = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'normal')
     output_directory = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train')
     
-    augment_audio(input_directory, output_directory)
+    augment_audio(input_directory, output_directory, mask_factor)
 
 if __name__ == "__main__":
     main()
