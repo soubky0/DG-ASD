@@ -20,6 +20,7 @@ def parse_args(tag):
     flat_param = com.param_to_args_list(params=param)
     flat_param.extend(["-tag", tag])
     args = parser.parse_args(args=flat_param)
+    args = parser.parse_args(namespace=args)
 
     args.cuda = args.use_cuda and torch.cuda.is_available()
 
