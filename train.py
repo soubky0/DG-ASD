@@ -50,6 +50,6 @@ def main(tag=0):
 
 if __name__ == "__main__":
     for i in range(10,1000):
-        print(F"============== MASKING FACTOR {i} ==============")
+        print(f"============== MASKING FACTOR {i} ==============")
         augment(i)
         main(i)
