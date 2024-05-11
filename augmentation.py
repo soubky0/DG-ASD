@@ -85,6 +85,7 @@ def augment_audio(input_dir, output_dir, mask_factor):
 def main(mask_factor=10):
     try:
         shutil.rmtree(os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train'))
+        shutil.rmtree(os.path.join(os.getcwd(), 'dev_data', 'processed', 'gearbox'))
     except FileNotFoundError:
         pass
     os.makedirs(os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train'))
