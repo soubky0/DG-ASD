@@ -1,4 +1,3 @@
---dataset_directory: ./
 --result_directory: ./results
 --export_dir: baseline
 --dataset: DCASE2023T2gearbox

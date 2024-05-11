@@ -180,6 +180,7 @@ class DCASE2023T2AE(BaseModel):
                 y_pred=y_pred_mahala,
                 score_distr_file_path=self.mahala_score_distr_file_path,
             )
+            torch.set_grad_enabled(True)
 
         # validation test
         val_loss = 0
@@ -325,7 +326,7 @@ class DCASE2023T2AE(BaseModel):
         )
         for idx, test_loader_tmp in enumerate(self.test_loader):
             section_name = f"section_{self.data.section_id_list[idx]}"
-            result_dir = self.result_dir if self.args.dev else self.eval_data_result_dir
+            result_dir = self.result_dir
 
             # setup anomaly score file path
             anomaly_score_csv = (

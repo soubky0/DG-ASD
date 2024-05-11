@@ -37,10 +37,6 @@ class BaseModel(object):
             f"{args.result_directory}/dev_data/{self.export_dir}_{args.score}/"
         )
         self.result_dir.mkdir(parents=True, exist_ok=True)
-        self.eval_data_result_dir = Path(
-            f"{args.result_directory}/eval_data/{self.export_dir}_{args.score}/"
-        )
-        self.eval_data_result_dir.mkdir(parents=True, exist_ok=True)
         self.model_name_suffix = (
             "_" + self.args.model_name_suffix if self.args.model_name_suffix else ""
         )
@@ -195,23 +191,3 @@ class BaseModel(object):
 
     def test(self):
         pass
-
-    def copy_eval_data_score(self, decision_result_csv_path, anomaly_score_csv_path):
-        eval_data_decision_result_csv_path = (
-            self.eval_data_result_dir
-            / os.path.basename(decision_result_csv_path).replace(
-                self.model_name_suffix, ""
-            )
-        )
-        print(
-            f"copy decision result: {decision_result_csv_path}\n\t->{eval_data_decision_result_csv_path}"
-        )
-        shutil.copyfile(decision_result_csv_path, eval_data_decision_result_csv_path)
-
-        eval_data_anomaly_score_csv_path = self.eval_data_result_dir / os.path.basename(
-            anomaly_score_csv_path
-        ).replace(self.model_name_suffix, "")
-        print(
-            f"copy anomaly score: {anomaly_score_csv_path}\n\t->{eval_data_anomaly_score_csv_path}"
-        )
-        shutil.copyfile(anomaly_score_csv_path, eval_data_anomaly_score_csv_path)

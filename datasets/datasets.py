@@ -20,12 +20,8 @@ class DCASE202XT2(object):
 
         dataset_name = args.dataset[:11]
         machine_type = args.dataset[11:]
-        data_path = f"{args.dataset_directory}dev_data/"
+        data_path = "./dev_data/"
         data_type = "dev"
-
-        if args.eval:
-            data_path = f"{args.dataset_directory}/{dataset_name.lower()}/eval_data/"
-            data_type = "eval"
 
         self.machine_type_dict = get_machine_type_dict(dataset_name)["machine_type"]
         self.section_id_list = self.machine_type_dict[machine_type][data_type]
