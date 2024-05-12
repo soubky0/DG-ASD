@@ -80,8 +80,8 @@ def compare_waveform(wav_file1, wav_file2, output_file):
     plt.savefig(output_file)
     plt.close()
 
+def main():
+    print("Hello World!")
+    
 if __name__ == '__main__':
-    plot_waveform('test.wav', 'waveform.png')
-    plot_spectrogram('test.wav', 'spectrogram.png')
-    compare_waveform('test1.wav', 'test2.wav', 'compare_waveform.png')
-    compare_spectrogram('test1.wav', 'test2.wav', 'compare_spectrogram.png')
+    main()
