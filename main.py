@@ -13,5 +13,5 @@ if __name__ == "__main__":
         test(f'masking_factor_{i}')
         time_end = perf_counter()
         time_duration = time_end - time_start
-        with open('results/timings.txt', 'w') as f:
+        with open('results/timings.txt', 'a') as f:
             f.write(f"Total execution time for Masking factor {i}: {time_duration/60} minutes\n")
