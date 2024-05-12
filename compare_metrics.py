@@ -1,18 +1,39 @@
 import pandas as pd
+import os
+import matplotlib.pyplot as plt
+ # Import the AUC module if it's not already imported
 
-# Load CSV files into pandas DataFrames
-df1 = pd.read_csv("results/eval_data/baseline_MSE/result_DCASE2023T2gearbox_test_seed13711_masking_factor_10_roc.csv")
-df2 = pd.read_csv("C:/Users/omar/projects/bachelor/results/dev_data/baseline/summarize/DCASE2023T2/baseline_MSE/result_DCASE2023T2gearbox_test_seed13711_roc.csv")
+dir_path = "results/dev_data/baseline_MSE/"
+files = os.listdir(dir_path)
+cols_of_interest = ['AUC (source)', 'AUC (target)', 'pAUC', 'pAUC (source)', 'pAUC (target)', 'precision (source)', 'precision (target)', 'recall (source)', 'recall (target)', 'F1 score (source)', 'F1 score (target)']
 
+# Initialize dictionaries
+dfs = {}
+differences = {}
 
-# Select only the columns of interest for comparison
-cols_of_interest = ['pAUC', 'pAUC (source)', 'pAUC (target)', 'AUC (source)', 'AUC (target)']
-df1_selected = df1[cols_of_interest]
-df2_selected = df2[cols_of_interest]
+for file in files:
+  if file.endswith(".csv") and file.startswith("result"):
+    name = file.split("_")[-4:-1]
+    name = "_".join(name)
+    df = pd.read_csv(os.path.join(dir_path, file))
+    df_selected = df[cols_of_interest]
+    dfs[name] = df_selected
 
-# Compute the absolute differences between corresponding values
-absolute_diff = df1_selected - df2_selected
+baseline_selected = dfs["baseline_omar_soubky"]
+for factor, df in dfs.items():
+        if factor != "baseline_omar_soubky":
+            differences[factor] = df - baseline_selected
 
-# Display the absolute differences
-print("Absolute Differences:")
-print(absolute_diff)
+# Convert the differences dictionary to a DataFrame
+differences_df = pd.concat(differences.values(), keys=differences.keys())
+
+# Round the values to a certain precision (e.g., 6 decimal places)
+rounded_differences_df = differences_df.round(6)
+
+# Remove duplicate rows
+differences_unique = rounded_differences_df.drop_duplicates()
+sorted_differences = differences_unique.sort_values(by='pAUC')
+
+# Print the unique differences
+print("Unique Differences between baseline and masking factors:")
+print(sorted_differences)
