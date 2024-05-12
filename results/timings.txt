@@ -1,2 +1,1 @@
-Total execution time for Masking factor 10: 77.35525492333333 minutes
-===============================================
+
