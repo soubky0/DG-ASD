@@ -1,7 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io.wavfile as wav
-
+import os
+import librosa
+from augmentation import time_masking
 def plot_spectrogram(wav_file, output_file):
     # Read the WAV file
     sample_rate, data = wav.read(wav_file)
@@ -81,7 +83,15 @@ def compare_waveform(wav_file1, wav_file2, output_file):
     plt.close()
 
 def main():
-    print("Hello World!")
+    normal_file = "audio/normal.wav"
+    audio, sr = librosa.load(normal_file)
+    
+    augmented_audio = time_masking(audio, 100)
+    augmented_file = "audio/augmented.wav"
+    wav.write(augmented_file, sr, augmented_audio)
+    
+    compare_spectrogram(normal_file, augmented_file, "plots/spectrogram.png")
+    compare_waveform(normal_file, augmented_file, "plots/waveform.png")
     
 if __name__ == '__main__':
     main()
