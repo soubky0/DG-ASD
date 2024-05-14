@@ -5,24 +5,32 @@ import scipy.io.wavfile as wavfile
 import shutil
 from tqdm import tqdm
 
-def time_masking(audio, mask_factor):
+def random_time_mask(audio, mask_length=0.1, mask_value=0.0):
     """
-    Apply time masking to the audio.
-    
-    Parameters:
-        audio (np.ndarray): Input audio array.
-        mask_factor (int): Factor to determine the length of the mask.
-    
+    Applies random time masking to an audio signal.
+
+    Args:
+        audio (numpy.ndarray): The input audio signal.
+        mask_length (float): The fraction of the audio to mask (0.0 to 1.0).
+        mask_value (float): The value to use for masking (usually 0.0 for silence).
+
     Returns:
-        np.ndarray: Audio with time masking applied.
+        numpy.ndarray: The masked audio signal.
     """
+    
+    # Ensure valid mask length
+    if not 0.0 <= mask_length <= 1.0:
+        raise ValueError("mask_length must be between 0.0 and 1.0")
+
+    # Calculate mask start and end points
+    num_samples = len(audio)
+    mask_start = np.random.randint(0, num_samples - int(mask_length * num_samples))
+    mask_end = mask_start + int(mask_length * num_samples)
+
+    # Apply the mask
     masked_audio = audio.copy()
-    # Determine mask length
-    mask_length = int(len(audio) / mask_factor)
-    # Randomly select a starting point for the mask
-    start = np.random.randint(0, len(audio) - mask_length)
-    # Apply mask
-    masked_audio[start:start+mask_length] = 0
+    masked_audio[mask_start:mask_end] = mask_value
+
     return masked_audio
 
 def load_audio(file_path):
@@ -49,7 +57,7 @@ def save_audio(file_path, audio, sr):
     """
     wavfile.write(file_path, sr, audio)
 
-def augment_audio(input_dir, output_dir, mask_factor):
+def augment_audio(input_dir, output_dir, mask_length=0.1):
     """
     Augment audio files in the input directory and save them to the output directory.
     
@@ -64,25 +72,26 @@ def augment_audio(input_dir, output_dir, mask_factor):
     for filename in tqdm(os.listdir(input_dir)):
         if filename.endswith(".wav"):
             input_file_path = os.path.join(input_dir, filename)
-
-            # Load audio
             audio, sr = load_audio(input_file_path)
 
-            # Apply time masking augmentation
-            augmented_audio = time_masking(audio, mask_factor)
-
-            # Generate output file path
-            output_file_path = os.path.join(output_dir, filename.replace("_normal_", "_anomaly_"))
-
-            # Save augmented audio
+            augmented_audio = random_time_mask(audio, mask_length)
+            parts = filename.split("_")
+            count = parts[5]
+            is_target = "_target_" in filename
+            if is_target:
+                filename = filename.replace("_target_", "_source_")
+                new_count = str(int(count) + 1990)
+            else:
+                new_count = str(int(count) + 1000)
+            filename = filename.replace(f"_{count}_", f"_{new_count}_")
+            output_file_path = os.path.join(output_dir, filename)
             save_audio(output_file_path, augmented_audio, sr)
 
-            # Copy original file to output directory
             shutil.copy2(input_file_path, output_dir)
 
     print("============== END OF AUGMENTATION ==============")
 
-def main(mask_factor=10):
+def main(mask_length=0.1):
     try:
         shutil.rmtree(os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train'))
         shutil.rmtree(os.path.join(os.getcwd(), 'dev_data', 'processed', 'gearbox'))
@@ -91,8 +100,16 @@ def main(mask_factor=10):
     os.makedirs(os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train'))
     input_directory = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'normal')
     output_directory = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train')
-    
-    augment_audio(input_directory, output_directory, mask_factor)
+
+    augment_audio(input_directory, output_directory, mask_length)
+    source = 0
+    target = 0
+    for filename in os.listdir(output_directory):
+        if "_source_" in os.path.join(output_directory, filename):
+            source += 1
+        elif "_target_" in os.path.join(output_directory, filename):
+            target += 1
+    print(f"Source: {source}, Target: {target}")
 
 if __name__ == "__main__":
     main()
