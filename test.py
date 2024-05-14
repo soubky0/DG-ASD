@@ -13,11 +13,12 @@ param = com.yaml_load()
 ########################################################################
 
 
-def parse_args(tag, demo=False):
+def parse_args(tag, demo=False, score="MSE"):
     parser = com.get_argparse()
     # read parameters from yaml
     flat_param = com.param_to_args_list(params=param)
     flat_param.extend(["-tag", tag])
+    flat_param.extend(["-score", score])
     args = parser.parse_args(args=flat_param)
     args.demo = demo
     # read parameters from command line
@@ -43,7 +44,9 @@ def main(tag=0):
     print(args)
 
     net = Models(args.model).net(args=args, train=False, test=True)
-
+    net.test()
+    args = parse_args(tag, True, "MAHALA")
+    net = Models(args.model).net(args=args, train=False, test=True)
     net.test()
 
 
