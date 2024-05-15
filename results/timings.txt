@@ -25,3 +25,12 @@ Total execution time for Masking factor 310: 74.92046651074997 minutes
 Total execution time for Masking factor 320: 74.78293288478332 minutes
 Total execution time for Masking factor 330: 74.29380448558344 minutes
 Total execution time for Masking factor 340: 74.0113224298167 minutes
+Total execution time for Random Mask Factor 1: 72.91858467056663 minutes
+Total execution time for Random Mask Factor 2: 73.91655828919998 minutes
+Total execution time for Random Mask Factor 3: 73.92865877178338 minutes
+Total execution time for Random Mask Factor 4: 73.81444858341662 minutes
+Total execution time for Random Mask Factor 5: 73.5156750825001 minutes
+Total execution time for Random Mask Factor 6: 73.64416400598323 minutes
+Total execution time for Random Mask Factor 7: 72.87650553058339 minutes
+Total execution time for Random Mask Factor 8: 72.82353477516638 minutes
+Total execution time for Random Mask Factor 9: 73.07793044145025 minutes
