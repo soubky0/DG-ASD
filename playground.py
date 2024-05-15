@@ -4,8 +4,10 @@ from model import *
 
 def main():
     normal_file = "audio/normal.wav"
-    audio, sr = librosa.load(normal_file)
-    augmented_audio = spec_augment(audio, sr)
+    audio, sr = load_audio(normal_file)
+    mel = audio_to_mel(audio, sr)
+    augmented_audio = spec_augment(mel, sr)
+    augmented_audio = mel_to_audio(augmented_audio, sr)
     augmented_file = f"audio/spec_augmented.wav"
     wav.write(augmented_file, sr, augmented_audio)
     compare_spectrogram(normal_file, augmented_file, f"plots/spec_augment_spectrogram.png")

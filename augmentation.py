@@ -4,6 +4,19 @@ import shutil
 from tqdm import tqdm
 from utils import *
 
+def adaptive_time_mask(spec, threshold_factor=0.5, min_mask_length=10, max_mask_length=80):
+    masked_spec = spec.copy()
+    frame_energies = np.mean(spec, axis=0)  
+    threshold = threshold_factor * np.mean(frame_energies)  
+    mask_candidates = np.where(frame_energies < threshold)[0]
+
+    if len(mask_candidates) > max_mask_length: 
+        start_idx = np.random.choice(mask_candidates[:-max_mask_length])  
+        mask_length = np.random.randint(min_mask_length, max_mask_length + 1)  
+        masked_spec[:, start_idx : start_idx + mask_length] = 0
+
+    return masked_spec
+
 def time_warp(spec, W=80):
 
     spec_len = spec.shape[1]
@@ -20,8 +33,6 @@ def time_warp(spec, W=80):
         warped_spec[:, spec_len - w:] = spec[:, -w:]  
 
     return warped_spec
-
-
 
 def time_mask(spec, T=40, num_masks=2):
 
@@ -62,36 +73,33 @@ def random_time_mask(audio, mask_length=0.1, mask_value=0.0):
 
     return masked_audio
 
-def augment_audio(input_dir, output_dir, mask_length=0.1):
-
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+def augment_audio(input_dir, output_dir, factor):
 
     print("============== BEGIN AUGMENTATION ==============")
 
     for filename in tqdm(os.listdir(input_dir)):
-        if filename.endswith(".wav"):
-            input_file_path = os.path.join(input_dir, filename)
-            audio, sr = load_audio(input_file_path)
-            augmented_audio = random_time_mask(audio, mask_length)
-            parts = filename.split("_")
-            count = parts[5]
-            is_target = "_target_" in filename
+        input_file_path = os.path.join(input_dir, filename)
+        audio, sr = load_audio(input_file_path)
+        # audio = audio_to_mel(audio, sr)
+        # augmented_audio = adaptive_time_mask(audio, factor)
+        parts = filename.split("_")
+        count = parts[5]
+        is_target = "_target_" in filename
 
-            if is_target:
-                filename = filename.replace("_target_", "_source_")
-                new_count = str(int(count) + 1990)
-            else:
-                new_count = str(int(count) + 1000)
+        if is_target:
+            filename = filename.replace("_target_", "_source_")
+            new_count = str(int(count) + 1990)
+        else:
+            new_count = str(int(count) + 1000)
 
-            filename = filename.replace(f"_{count}_", f"_{new_count}_")
-            output_file_path = os.path.join(output_dir, filename)
-            save_audio(output_file_path, augmented_audio, sr)
-            shutil.copy2(input_file_path, output_dir)
+        filename = filename.replace(f"_{count}_", f"_{new_count}_")
+        output_file_path = os.path.join(output_dir, filename)
+        save_audio(output_file_path, augmented_audio, sr)
+        shutil.copy2(input_file_path, output_dir)
 
     print("============== END OF AUGMENTATION ==============")
 
-def main(mask_length=0.1):
+def main(factor=1):
 
     try:
         shutil.rmtree(os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train'))
@@ -102,7 +110,7 @@ def main(mask_length=0.1):
     os.makedirs(os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train'))
     input_directory = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'normal')
     output_directory = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train')
-    augment_audio(input_directory, output_directory, mask_length)
+    augment_audio(input_directory, output_directory, factor)
     source = 0
     target = 0
 

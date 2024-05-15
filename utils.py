@@ -83,7 +83,7 @@ def compare_waveform(wav_file1, wav_file2, output_file):
 
 def mel_to_audio(mel_spectrogram, sr, n_fft=1024, hop_length=512):
 
-    mel_spectrogram = librosa.db_to_power(mel_spectrogram)
+    #mel_spectrogram = librosa.db_to_power(mel_spectrogram)
     audio = librosa.feature.inverse.mel_to_audio(mel_spectrogram, sr=sr, n_fft=n_fft, hop_length=hop_length)
 
     return audio
