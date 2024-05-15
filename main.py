@@ -1,7 +1,5 @@
 from augmentation import main as augment
-from train import main as train
-from test import main as test
-
+from model import train, test
 from time import perf_counter
 
 if __name__ == "__main__":
