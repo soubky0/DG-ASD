@@ -80,14 +80,14 @@ def augment_audio(input_dir, output_dir, factor):
     for filename in tqdm(os.listdir(input_dir)):
         input_file_path = os.path.join(input_dir, filename)
         audio, sr = load_audio(input_file_path)
-        # audio = audio_to_mel(audio, sr)
-        # augmented_audio = adaptive_time_mask(audio, factor)
+        audio = audio_to_mel(audio, sr)
+        augmented_audio = adaptive_time_mask(audio, factor)
         parts = filename.split("_")
+
         count = parts[5]
-        is_target = "_target_" in filename
+        is_target = "target" in filename
 
         if is_target:
-            filename = filename.replace("_target_", "_source_")
             new_count = str(int(count) + 1990)
         else:
             new_count = str(int(count) + 1000)

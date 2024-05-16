@@ -9,13 +9,7 @@ mkdir -p "$RAW_DIR"
 mkdir -p "$PROCESSED_DIR"
 
 # Download dataset
-curl -L "https://zenodo.org/records/7882613/files/dev_gearbox.zip?download=1" -o "$RAW_DIR/gearbox.zip"
-
-# Unzip dataset
-unzip "$RAW_DIR/gearbox.zip" -d "$RAW_DIR"
-
-# Remove the downloaded zip file
-rm "$RAW_DIR/gearbox.zip"
-
-# Move train data to appropriate directory
+curl -L "https://zenodo.org/records/7882613/files/dev_gearbox.zip?download=1" -o "gearbox.zip"
+unzip "gearbox.zip" -d "$RAW_DIR"
+rm "gearbox.zip"
 mv "$RAW_DIR/gearbox/train" "$RAW_DIR/gearbox/normal"
