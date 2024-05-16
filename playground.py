@@ -3,22 +3,11 @@ from utils import *
 from model import *
 
 def main():
-    normal_file = "audio/normal.wav"
-    audio, sr = audio_to_mel(normal_file)
-    augmented_audio = random_time_mask(audio)
-    augmented_audio = mel_to_audio(augmented_audio, sr)
-    augmented_file = f"audio/spec_augmented.wav"
-    wav.write(augmented_file, sr, augmented_audio)
-    compare_spectrogram(normal_file, augmented_file, f"plots/spec_augment_spectrogram.png")
-    compare_waveform(normal_file, augmented_file, f"plots/spec_augment_waveform.png")
-    # for i in range(1, 10):
-    #     mask_length = i / 100.0
-    #     augmented_audio = random_time_mask(audio, mask_length)
-    #     augmented_file = f"audio/augmented_{i}.wav"
-    #     wav.write(augmented_file, sr, augmented_audio)
-    #     compare_spectrogram(normal_file, augmented_file, f"plots/spectrogram_{i}.png")
-    #     compare_waveform(normal_file, augmented_file, f"plots/waveform_{i}.png")
-
+    audio, sr = load_audio('audio/normal.wav')
+    time_warped = time_warp(audio, sr, 0.4)
+    save_audio('audio/augmented.wav', time_warped, sr)
+    compare_waveform('audio/normal.wav', 'audio/augmented.wav', 'plots/time_warp_waveform.png')
+    compare_spectrogram('audio/normal.wav', 'audio/augmented.wav', 'plots/time_warp_spectogram.png')
     
 if __name__ == '__main__':
     main()

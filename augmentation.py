@@ -4,16 +4,37 @@ import shutil
 from tqdm import tqdm
 from utils import *
 
-def random_time_mask(spec, max_masks=2, max_time_mask=10):
-    """Applies random time masking to a spectrogram."""
-    spec = spec.copy()  # Create a copy to avoid modifying the original
-    num_masks = np.random.randint(1, max_masks + 1)  # Randomly choose the number of masks
-    for _ in range(num_masks):
-        t = np.random.randint(0, spec.shape[1] - max_time_mask)  # Random start time
-        mask_length = np.random.randint(1, max_time_mask + 1)  # Random mask length
-        spec[:, t : t + mask_length] = 0  # Mask the time segment
-    return spec
+from audiomentations import Compose, TimeMask
 
+time_mask = Compose([TimeMask(min_band_part=0.1, max_band_part=0.2, p=1.0)])
+
+def time_warp(audio, sample_rate, warp_factor=0.1):
+
+    # Convert the audio to a mel-spectrogram
+    mel_spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate)
+    
+    # Create a time axis
+    time_steps = np.arange(mel_spec.shape[1])
+    
+    # Generate a random warp for each time step
+    random_warp = np.random.uniform(-warp_factor, warp_factor, mel_spec.shape[1])
+    time_steps_warped = time_steps + random_warp
+    
+    # Ensure the warped time steps are within valid bounds
+    time_steps_warped = np.clip(time_steps_warped, 0, mel_spec.shape[1] - 1)
+    
+    # Interpolate the warped spectrogram
+    mel_spec_warped = np.zeros_like(mel_spec)
+    for i in range(mel_spec.shape[0]):
+        mel_spec_warped[i] = np.interp(time_steps, time_steps_warped, mel_spec[i])
+    
+    # Convert the warped mel-spectrogram back to audio
+    warped_audio = librosa.feature.inverse.mel_to_audio(mel_spec_warped, sr=sample_rate)
+
+    if len(warped_audio) < len(audio):
+        warped_audio = np.pad(warped_audio, (0, len(audio) - len(warped_audio)), 'constant')
+        
+    return warped_audio
 
 def augment_audio(input_dir, output_dir, factor):
 
@@ -22,7 +43,7 @@ def augment_audio(input_dir, output_dir, factor):
     for filename in tqdm(os.listdir(input_dir)):
         file = os.path.join(input_dir, filename)
         audio, sr = audio_to_mel(file)
-        augmented_audio = random_time_mask(audio, factor)
+        augmented_audio = time_mask(audio, sr)
         augmented_audio = mel_to_audio(augmented_audio, sr) 
         parts = filename.split("_")
 
