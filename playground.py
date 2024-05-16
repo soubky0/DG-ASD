@@ -4,8 +4,8 @@ from model import *
 
 def main():
     audio, sr = load_audio('audio/normal.wav')
-    time_warped = time_warp(audio, sr, 0.4)
-    save_audio('audio/augmented.wav', time_warped, sr)
+    augmented_audio = apply_augmentation(audio, sr, Augmentations.SPEC_AUGMENT)
+    save_audio('audio/augmented.wav', augmented_audio, sr)
     compare_waveform('audio/normal.wav', 'audio/augmented.wav', 'plots/time_warp_waveform.png')
     compare_spectrogram('audio/normal.wav', 'audio/augmented.wav', 'plots/time_warp_spectogram.png')
     
