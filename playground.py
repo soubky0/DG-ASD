@@ -4,9 +4,8 @@ from model import *
 
 def main():
     normal_file = "audio/normal.wav"
-    audio, sr = load_audio(normal_file)
-    mel = audio_to_mel(audio, sr)
-    augmented_audio = spec_augment(mel, sr)
+    audio, sr = audio_to_mel(normal_file)
+    augmented_audio = random_time_mask(audio)
     augmented_audio = mel_to_audio(augmented_audio, sr)
     augmented_file = f"audio/spec_augmented.wav"
     wav.write(augmented_file, sr, augmented_audio)

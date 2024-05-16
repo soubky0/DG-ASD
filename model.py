@@ -28,7 +28,7 @@ def test(tag=0):
 
     net = Models(args.model).net(args=args, train=False, test=True)
     net.test()
-    args = parse_args(tag, True, "MAHALA")
+    args = parse_args(tag, "MAHALA")
     net = Models(args.model).net(args=args, train=False, test=True)
     net.test()
 

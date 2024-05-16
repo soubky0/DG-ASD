@@ -81,18 +81,19 @@ def compare_waveform(wav_file1, wav_file2, output_file):
     plt.savefig(output_file)
     plt.close()
 
-def mel_to_audio(mel_spectrogram, sr, n_fft=1024, hop_length=512):
+def mel_to_audio(mel_spectrogram, sr):
 
     #mel_spectrogram = librosa.db_to_power(mel_spectrogram)
-    audio = librosa.feature.inverse.mel_to_audio(mel_spectrogram, sr=sr, n_fft=n_fft, hop_length=hop_length)
+    audio = librosa.feature.inverse.mel_to_audio(mel_spectrogram, sr=sr, n_fft=1024, hop_length=512)
 
     return audio
 
-def audio_to_mel(y, sr, n_fft=1024, hop_length=512, n_mels=128):
+def audio_to_mel(file):
+    audio , sr = load_audio(file)
 
-    mel_spectrogram = librosa.feature.melspectrogram(y=y, sr=sr, n_fft=n_fft, hop_length=hop_length, n_mels=n_mels)
+    mel_spectrogram = librosa.feature.melspectrogram(y=audio, sr=sr, n_fft=1024, hop_length=512, n_mels=128)
 
-    return mel_spectrogram
+    return mel_spectrogram , sr
 
 def load_audio(file_path):
     
