@@ -1,1 +1,10 @@
 
+Total execution time for Random Mask Factor 0: 72.98161602068333 minutes
+Total execution time for Random Mask Factor 1: 74.43740593851665 minutes
+Total execution time for Random Mask Factor 2: 74.76784544693334 minutes
+Total execution time for Random Mask Factor 3: 74.19308936956665 minutes
+Total execution time for Random Mask Factor 4: 74.50321190338333 minutes
+Total execution time for Random Mask Factor 0: 89.96553108388338 minutes
+Total execution time for Random Mask Factor 1: 90.18841004208335 minutes
+Total execution time for Random Mask Factor 2: 90.8680324643666 minutes
+Total execution time for Random Mask Factor 3: 92.19345159790004 minutes

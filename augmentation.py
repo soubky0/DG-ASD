@@ -83,19 +83,22 @@ def apply_augmentation(audio, sr, augmentation):
     
     return augmentation_functions[augmentation](audio, sr)
 
-def augment(augmentation):
-    try:
-        shutil.rmtree(os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train'))
-        shutil.rmtree(os.path.join(os.getcwd(), 'dev_data', 'processed', 'gearbox'))
-    except FileNotFoundError:
-        pass
-    os.makedirs(os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train'))
-    input_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'normal')
-    output_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train')
-    print("============== BEGIN AUGMENTATION ==============")
+def augment(augmentation: Augmentations):
+    
+    normal_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'normal')
+    augmented_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'augmented')
+    train_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train')
+    processed_dir = os.path.join(os.getcwd(), 'dev_data', 'processed', 'gearbox')
 
-    for filename in tqdm(os.listdir(input_dir)):
-        file = os.path.join(input_dir, filename)
+    try:
+        shutil.rmtree(processed_dir)
+    except:
+        pass
+    
+    print(f"============== BEGIN {augmentation.name} AUGMENTATION ==============")
+
+    for filename in tqdm(os.listdir(normal_dir)):
+        file = os.path.join(normal_dir, filename)
         audio, sr = load_audio(file)
         augmented_audio = apply_augmentation(audio, sr, augmentation)
         parts = filename.split("_")
@@ -104,14 +107,16 @@ def augment(augmentation):
         is_target = "target" in filename
 
         if is_target:
-            new_count = str(int(count) + 1990)
+            new_count = str(int(count) + 10)
         else:
             new_count = str(int(count) + 1000)
 
         filename = filename.replace(f"_{count}_", f"_{new_count}_")
-        output_file_path = os.path.join(output_dir, filename)
-        save_audio(output_file_path, augmented_audio, sr)
-        shutil.copy2(file, output_dir)
+        augmented_file = os.path.join(augmented_dir, filename)
+        train_file = os.path.join(train_dir, filename)
+        save_audio(augmented_file, augmented_audio, sr)
+        save_audio(train_file, augmented_audio, sr)
+        shutil.copy2(file, train_file)
 
     print("============== END OF AUGMENTATION ==============")
 
