@@ -316,9 +316,6 @@ class DCASE2023T2AE(BaseModel):
                 score_distr_file_path=self.mse_score_distr_file_path
             )
 
-        if self.args.demo:
-            dir_name = "uploads"
-        else:
             dir_name = "test"
 
         inv_cov_source, inv_cov_target = calc_inv_cov(
@@ -375,7 +372,7 @@ class DCASE2023T2AE(BaseModel):
             save_csv(save_file_path=decision_result_csv, save_data=decision_result_list)
             print("decision result ->  {}".format(decision_result_csv))
 
-            if mode:
+            if mode and self.args.demo == False:
                 # extract scores for calculation of AUC (source) and AUC (target)
                 y_true_s_auc = [
                     y_true[idx]
@@ -548,7 +545,7 @@ class DCASE2023T2AE(BaseModel):
 
             print("\n============ END OF TEST FOR A SECTION ============")
 
-        if mode:
+        if mode and self.args.demo == False:
             # calculate averages for AUCs and pAUCs
             amean_performance = np.mean(np.array(performance, dtype=float), axis=0)
             csv_lines.append(["arithmetic mean"] + list(amean_performance))

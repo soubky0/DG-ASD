@@ -4,6 +4,8 @@ import librosa
 import librosa.display as ld
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+import os
 
 def plot_spectrogram(wav_file, output_file):
     
@@ -104,3 +106,17 @@ def load_audio(file_path):
 def save_audio(file_path, audio, sr):
     
     wav.write(file_path, sr, audio)
+
+def get_result():
+    file_path = os.path.join(os.getcwd(), 'results', 'demo')
+    files = os.listdir(file_path)
+    for f in files:
+        if f.startswith("decision"):
+            fp = os.path.join(file_path, f)
+            df = pd.read_csv(fp)
+            result = int(df.columns[1])
+            break
+    if result == 1:
+        return "Anomaly"
+    elif result == 0:
+        return "Normal"

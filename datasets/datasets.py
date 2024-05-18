@@ -48,6 +48,7 @@ class DCASE202XT2(object):
             data_type=data_type,
             use_id=args.use_ids,
             is_auto_download=args.is_auto_download,
+            demo=args.demo
         )
 
         train_index, valid_index = train_test_split(
@@ -90,6 +91,7 @@ class DCASE202XT2(object):
                 win_length=args.win_length,
                 data_type=data_type,
                 is_auto_download=args.is_auto_download,
+                demo=args.demo
             )
 
             self.test_loader.append(

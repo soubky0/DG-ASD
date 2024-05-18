@@ -33,9 +33,14 @@ class BaseModel(object):
         self.model = self.init_model()
 
         self.export_dir = f"{self.args.export_dir}" if self.args.export_dir else ""
-        self.result_dir = Path(
-            f"{args.result_directory}/dev_data/{self.export_dir}_{args.score}/"
-        )
+        if self.args.demo:
+            self.result_dir = Path(
+                f"{args.result_directory}/demo"
+            )
+        else:
+            self.result_dir = Path(
+                f"{args.result_directory}/dev_data/{self.export_dir}_{args.score}/"
+            )
         self.result_dir.mkdir(parents=True, exist_ok=True)
         self.model_name_suffix = (
             "_" + self.args.model_name_suffix if self.args.model_name_suffix else ""
