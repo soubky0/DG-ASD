@@ -53,8 +53,6 @@ class DCASE202XT2Loader(torch.utils.data.Dataset):
         ):
             dir_name = "test_rename"
             self.mode = True
-        elif demo:
-            dir_name = "uploads"
         else:
             dir_name = "test"
         
