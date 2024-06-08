@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import os
+import shutil
 
 def plot_spectrogram(wav_file, output_file):
     
@@ -120,3 +121,30 @@ def get_result():
         return "Anomaly"
     elif result == 0:
         return "Normal"
+
+def copy_files(source_dir, destination_dir):
+    """
+    Copy all files from the source directory to the destination directory.
+
+    Parameters:
+    source_dir (str): The directory to copy files from.
+    destination_dir (str): The directory to copy files to.
+
+    Returns:
+    None
+    """
+    # source_dir = os.join(os.getcwd(), source_dir)
+    # destination_dir = os.join(os.getcwd, destination_dir)
+
+    # Ensure destination directory exists
+    if not os.path.exists(destination_dir):
+        os.makedirs(destination_dir)
+
+    # Iterate over all files in the source directory
+    for filename in os.listdir(source_dir):
+        source_file = os.path.join(source_dir, filename)
+        destination_file = os.path.join(destination_dir, filename)
+        
+        # Copy the file
+        if os.path.isfile(source_file):
+            shutil.copy(source_file, destination_file)

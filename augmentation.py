@@ -111,12 +111,10 @@ def augment(augmentation: Augmentations):
         else:
             new_count = str(int(count) + 1000)
 
-        filename = filename.replace(f"_{count}_", f"_{new_count}_")
-        augmented_file = os.path.join(augmented_dir, filename)
-        train_file = os.path.join(train_dir, filename)
+        augmented_filename = filename.replace(f"_{count}_", f"_{new_count}_")
+        augmented_file = os.path.join(augmented_dir, augmented_filename)
         save_audio(augmented_file, augmented_audio, sr)
-        save_audio(train_file, augmented_audio, sr)
-        shutil.copy2(file, train_file)
-
+    copy_files(augmented_dir, train_dir)
+    copy_files(normal_dir, train_dir)
     print("============== END OF AUGMENTATION ==============")
 
