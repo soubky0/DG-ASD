@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import argparse
+import glob
 from scipy.stats.mstats import hmean  # Import the harmonic mean function
 
 def compare_results(sort_by="hmean (source)"):  # Default sort by hmean
@@ -45,12 +46,48 @@ def compare_results(sort_by="hmean (source)"):  # Default sort by hmean
     print("Differences between baseline and masking factors (sorted by", sort_by, "):")
     print(reversed_sorted_differences[sort_by])
  
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Compare results of different factors with a baseline and save differences to a CSV file.')
-    parser.add_argument('sort_by', nargs='?', type=str, help='Sorting metric. Available options: AUC (source), AUC (target), pAUC, pAUC (source), pAUC (target), precision (source), precision (target), recall (source), recall (target), F1 score (source), F1 score (target), hmean (source), hmean (target)')
 
-    args = parser.parse_args()
-    if args.sort_by:
-        compare_results(args.sort_by)
-    else:
-        compare_results()
+def compute_average_results(directory, output_filename):
+    """
+    Compute the average results from multiple CSV files in the specified directory.
+
+    Parameters:
+    directory (str): The directory containing the CSV files.
+
+    Returns:
+    pd.DataFrame: DataFrame containing the average results.
+    """
+    # Load all CSV files in the specified directory
+    directory = os.path.join(os.getcwd(),"results", directory)
+    file_paths = glob.glob(f'{directory}/result*.csv')
+
+    if not file_paths:
+        raise ValueError("No matching CSV files found in the specified directory.")
+
+    # Read CSV files into DataFrames
+    dfs = [pd.read_csv(file_path) for file_path in file_paths]
+
+    # Check if all dataframes have the same columns
+    if not all(df.columns.equals(dfs[0].columns) for df in dfs):
+        raise ValueError("DataFrames do not have the same columns, cannot compute average.")
+
+    # Concatenate all DataFrames
+    concatenated_df = pd.concat(dfs)
+    
+    # Group by all columns except the result column, and compute the mean for the result column
+    avg_df = concatenated_df.groupby(concatenated_df.columns[:-1].tolist()).mean().reset_index()
+    output_path = os.path.join(directory, output_filename)
+    avg_df.to_csv(output_path, index=False)
+    print(f"Average results saved to {output_path}")
+
+
+if __name__ == "__main__":
+    # parser = argparse.ArgumentParser(description='Compare results of different factors with a baseline and save differences to a CSV file.')
+    # parser.add_argument('sort_by', nargs='?', type=str, help='Sorting metric. Available options: AUC (source), AUC (target), pAUC, pAUC (source), pAUC (target), precision (source), precision (target), recall (source), recall (target), F1 score (source), F1 score (target), hmean (source), hmean (target)')
+
+    # args = parser.parse_args()
+    # if args.sort_by:
+    #     compare_results(args.sort_by)
+    # else:
+    #     compare_results()
+    result = compute_average_results("baseline","average_result.csv")
