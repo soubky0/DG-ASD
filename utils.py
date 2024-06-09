@@ -148,3 +148,24 @@ def copy_files(source_dir, destination_dir):
         # Copy the file
         if os.path.isfile(source_file):
             shutil.copy(source_file, destination_file)
+
+def get_max(file_path):
+    files = os.listdir(file_path)
+
+    max_auc_source = (0, None)
+    max_auc_target = (0, None)
+    max_pauc = (0, None)
+    for f in files:
+        list = f.split('_')
+        if 'result' == list[0]:
+            file_name = os.path.join(file_path, f)
+            df = pd.read_csv(file_name)
+            if df["AUC (source)"][0] > max_auc_source[0]:
+                max_auc_source = (df["AUC (source)"][0], f)
+            if df["AUC (target)"][0] > max_auc_target[0]:
+                max_auc_target = (df["AUC (target)"][0], f)
+            if df["pAUC"][0] > max_pauc[0]:
+                max_pauc = (df["pAUC"][0], f)
+    print("AUC (source)", max_auc_source)
+    print("AUC (target)", max_auc_target)
+    print("pAUC", max_pauc)
