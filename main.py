@@ -15,20 +15,29 @@ def baseline():
         with open('results/baseLine_timings.txt', 'a') as f:
             f.write(f"Total execution time for Baseline {i}: {time_duration/60} minutes\n")
 
-def augmentation():
+def all_augmentation():
     for a in Augmentations:
-        for i in range(0, 5):
+        time_start = perf_counter()
+        print(f"============== AUGMENTATION {a.name} ==============")
+        augment(a)
+        train(f'{a.name}')
+        test(f'{a.name}')
+        time_end = perf_counter()
+        time_duration = time_end - time_start
+        with open('results/augmentation_timings.txt', 'a') as f:
+            f.write(f"Total execution time for Random Mask Factor {i}: {time_duration/60} minutes\n")
+
+
+if __name__ == "__main__":
+    # baseline()
+    # all_augmentation()
+        
+        for i in range(1,6):
             time_start = perf_counter()
-            print(f"============== ITERATION {i} ==============")
-            augment(a)
-            train(f'{a}_{i}')
-            test(f'{a}_{i}')
+            augment(Augmentations.TIME_MASK)
+            train(f'TIME_MASK_320_iteration_{i}')
+            test(f'TIME_MASK_320_iteration_{i}')
             time_end = perf_counter()
             time_duration = time_end - time_start
             with open('results/augmentation_timings.txt', 'a') as f:
                 f.write(f"Total execution time for Random Mask Factor {i}: {time_duration/60} minutes\n")
-
-
-if __name__ == "__main__":
-    #baseline()
-    augmentation()
