@@ -8,12 +8,34 @@ from enum import Enum
 from audiomentations import Compose, TimeMask
 
 class Augmentations(Enum):
+    TIME_MASK_LIBRARY = "time_mask_audiomentations"
     TIME_MASK = "time_mask"
     FREQUENCY_MASK = "frequency_mask"
     TIME_WARP = "time_warp"
     SPEC_AUGMENT = "spec_augment"
 
-def time_mask(audio, sr):
+def time_mask(audio, mask_factor):
+    """
+    Apply time masking to the audio.
+    
+    Parameters:
+        audio (np.ndarray): Input audio array.
+        mask_factor (int): Factor to determine the length of the mask.
+    
+    Returns:
+        np.ndarray: Audio with time masking applied.
+    """
+    masked_audio = audio.copy()
+    # Determine mask length
+    mask_length = int(len(audio) / mask_factor)
+    # Randomly select a starting point for the mask
+    start = np.random.randint(0, len(audio) - mask_length)
+    # Apply mask
+    masked_audio[start:start+mask_length] = 0
+    return masked_audio
+
+
+def time_mask_audiomentations(audio, sr):
     
     audioment = Compose([TimeMask(min_band_part=0.1, max_band_part=0.2, p=1.0)])
     audio = audioment(audio, sr)
