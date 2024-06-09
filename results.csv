@@ -1,0 +1,7 @@
+system,AUC (source),AUC (target),pAUC
+dcase_baseline,60.31,60.69,53.22
+my_baseline,59.22,61.06,52.84
+time_masking_audiomentations,58.8,58.68,50.42
+time_masking_factor_60,62.38,58.78,50.16
+time_masking_factor_220,60.62,60.94,54.37
+time_masking_factor_320,61.46,62.62,53.16
