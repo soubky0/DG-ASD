@@ -32,12 +32,12 @@ if __name__ == "__main__":
     # baseline()
     # all_augmentation()
         
-        for i in range(1,6):
-            time_start = perf_counter()
-            augment(Augmentations.TIME_MASK)
-            train(f'TIME_MASK_320_iteration_{i}')
-            test(f'TIME_MASK_320_iteration_{i}')
-            time_end = perf_counter()
-            time_duration = time_end - time_start
-            with open('results/augmentation_timings.txt', 'a') as f:
-                f.write(f"Total execution time for Random Mask Factor {i}: {time_duration/60} minutes\n")
+    for i in range(1,6):
+        time_start = perf_counter()
+        augment(Augmentations.TIME_MASK)
+        train(f'TIME_MASK_320_iteration_{i}')
+        test(f'TIME_MASK_320_iteration_{i}')
+        time_end = perf_counter()
+        time_duration = time_end - time_start
+        with open('results/augmentation_timings.txt', 'a') as f:
+            f.write(f"Total execution time for Random Mask Factor {i}: {time_duration/60} minutes\n")
