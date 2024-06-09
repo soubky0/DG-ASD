@@ -210,8 +210,4 @@ def get_argparse():
     parser.add_argument(
         "--test_only", action="store_true", default=False, help="Run test only"
     )
-
-    parser.add_argument(
-        "--demo", action="store_true", default=False, help="Run demo mode"
-    )
     return parser

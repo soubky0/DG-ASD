@@ -32,7 +32,6 @@ class DCASE202XT2Loader(torch.utils.data.Dataset):
         source_domain="mix",
         use_id=[],
         is_auto_download=False,
-        demo=False
     ):
         super().__init__()
 

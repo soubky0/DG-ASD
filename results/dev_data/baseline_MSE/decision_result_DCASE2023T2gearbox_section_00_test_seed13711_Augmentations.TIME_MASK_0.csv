@@ -92,7 +92,7 @@ section_00_target_test_normal_0040_volt_1.5_wt_80.wav,1
 section_00_target_test_normal_0041_volt_1.5_wt_230.wav,1
 section_00_target_test_normal_0042_volt_1.5_wt_250.wav,1
 section_00_target_test_normal_0043_volt_1.5_wt_230.wav,1
-section_00_target_test_normal_0044_volt_0.6_wt_0.wav,1
+section_00_target_test_normal_0044_volt_0.6_wt_0.wav,0
 section_00_target_test_normal_0045_volt_1.5_wt_130.wav,0
 section_00_target_test_normal_0046_volt_2.3_wt_0.wav,1
 section_00_target_test_normal_0047_volt_2.3_wt_0.wav,1
@@ -136,7 +136,7 @@ section_00_source_test_anomaly_0034_volt_1.5_wt_0.wav,1
 section_00_source_test_anomaly_0035_volt_3.0_wt_0.wav,1
 section_00_source_test_anomaly_0036_volt_1.5_wt_50.wav,0
 section_00_source_test_anomaly_0037_volt_1.5_wt_100.wav,1
-section_00_source_test_anomaly_0038_volt_1.5_wt_150.wav,0
+section_00_source_test_anomaly_0038_volt_1.5_wt_150.wav,1
 section_00_source_test_anomaly_0039_volt_1.0_wt_0.wav,1
 section_00_source_test_anomaly_0040_volt_1.5_wt_200.wav,1
 section_00_source_test_anomaly_0041_volt_1.5_wt_200.wav,0
@@ -194,7 +194,7 @@ section_00_target_test_anomaly_0042_volt_1.5_wt_130.wav,0
 section_00_target_test_anomaly_0043_volt_1.5_wt_80.wav,0
 section_00_target_test_anomaly_0044_volt_1.5_wt_180.wav,1
 section_00_target_test_anomaly_0045_volt_2.3_wt_0.wav,1
-section_00_target_test_anomaly_0046_volt_1.5_wt_230.wav,0
+section_00_target_test_anomaly_0046_volt_1.5_wt_230.wav,1
 section_00_target_test_anomaly_0047_volt_1.8_wt_0.wav,1
 section_00_target_test_anomaly_0048_volt_1.5_wt_30.wav,1
 section_00_target_test_anomaly_0049_volt_1.5_wt_250.wav,1

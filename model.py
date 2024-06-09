@@ -6,12 +6,10 @@ from networks.models import Models
 from utils import *
 param = com.yaml_load()
 
-def parse_args(tag, demo=False, score="MSE"):
+def parse_args(tag, score="MSE"):
     parser = com.get_argparse()
     flat_param = com.param_to_args_list(params=param)
     flat_param.extend(["-tag", tag])
-    if demo:
-        flat_param.extend(["--demo"])
     flat_param.extend(["--score", score])
     args = parser.parse_args(args=flat_param)
     args = parser.parse_args(namespace=args)
@@ -27,13 +25,13 @@ def parse_args(tag, demo=False, score="MSE"):
 
 def demo(model_name):
     
-    test(model_name, True)
+    test(model_name, demo=True)
     result = get_result()
     return result
 
 
-def test(tag=0, demo=False):
-    args = parse_args(tag, demo)
+def test(tag=0):
+    args = parse_args(tag)
     print(args)
 
     net = Models(args.model).net(args=args, train=False, test=True)
