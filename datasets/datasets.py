@@ -28,12 +28,13 @@ class DCASE202XT2(object):
         print("num classes: %d" % (self.num_classes))
         self.id_list = [int(machine_id) for machine_id in self.section_id_list]
         section_keyword = get_machine_type_dict(dataset_name)["section_keyword"]
-        train_data = DCASE202XT2Loader(
+        self.train_dataset = DCASE202XT2Loader(
             data_path,
             dataset_name=dataset_name,
             section_keyword=section_keyword,
             machine_type=machine_type,
             train=True,
+            dir_name="train",
             section_ids=self.section_id_list,
             frames=args.frames,
             n_mels=args.n_mels,
@@ -48,13 +49,13 @@ class DCASE202XT2(object):
             use_id=args.use_ids,
             is_auto_download=args.is_auto_download,
         )
-        normal_data = DCASE202XT2Loader(
+        self.valid_dataset = DCASE202XT2Loader(
             data_path,
             dataset_name=dataset_name,
             section_keyword=section_keyword,
             machine_type=machine_type,
             train=True,
-            augmented=True,
+            dir_name="validation",
             section_ids=self.section_id_list,
             frames=args.frames,
             n_mels=args.n_mels,
@@ -70,31 +71,20 @@ class DCASE202XT2(object):
             is_auto_download=args.is_auto_download,
         )
 
-        _, valid_index = train_test_split( range(len(normal_data)), test_size=args.validation_split)
-        train_index , _ = train_test_split(range(len(train_data)), test_size=args.validation_split)
-
-
-        # train_index, valid_index = train_test_split(
-        #     range(len(train_data)), test_size=args.validation_split
-        # )
-
-        self.train_dataset = Subset(train_data, train_index)
         self.train_loader = torch.utils.data.DataLoader(
             self.train_dataset,
             batch_size=batch_size,
             shuffle=shuffle,
             batch_sampler=batch_sampler,
         )
-        self.valid_dataset = Subset(train_data, valid_index)
+
+
         self.valid_loader = torch.utils.data.DataLoader(
             self.valid_dataset,
             batch_size=batch_size,
             shuffle=False,
             batch_sampler=batch_sampler,
         )
-        print(self.train_dataset)
-        print(f"Train Subset size: {len(self.train_dataset)}")
-        print(f"Validation Subset size: {len(self.valid_dataset)}")
         self.test_loader = []
         if args.train_only:
             return
@@ -105,6 +95,7 @@ class DCASE202XT2(object):
                 section_keyword=section_keyword,
                 machine_type=machine_type,
                 train=False,
+                dir_name="test",
                 section_ids=[id],
                 frames=args.frames,
                 n_mels=args.n_mels,

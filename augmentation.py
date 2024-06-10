@@ -6,6 +6,7 @@ import random
 from utils import *
 from enum import Enum
 from audiomentations import Compose, TimeMask
+from sklearn.model_selection import train_test_split
 
 class Augmentations(Enum):
     TIME_MASK_LIBRARY = "time_mask_audiomentations"
@@ -97,6 +98,7 @@ def augment(augmentation: Augmentations):
     
     normal_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'normal')
     augmented_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'augmented')
+    validation_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'validation')
     train_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train')
     processed_dir = os.path.join(os.getcwd(), 'dev_data', 'processed', 'gearbox')
 
@@ -105,9 +107,12 @@ def augment(augmentation: Augmentations):
     except:
         pass
     
+    filenames = os.listdir(normal_dir)
+    train_filenames, val_filenames = train_test_split(filenames, test_size=0.2)
+    
     print(f"============== BEGIN {augmentation.name} AUGMENTATION ==============")
 
-    for filename in tqdm(os.listdir(normal_dir)):
+    for filename in tqdm(train_filenames):
         file = os.path.join(normal_dir, filename)
         audio, sr = load_audio(file)
         augmented_audio = apply_augmentation(audio, sr, augmentation)
@@ -126,5 +131,11 @@ def augment(augmentation: Augmentations):
         save_audio(augmented_file, augmented_audio, sr)
     copy_files(augmented_dir, train_dir)
     copy_files(normal_dir, train_dir)
+
+    for filename in val_filenames:
+        file = os.path.join(normal_dir, filename)
+        dest_file = os.path.join(validation_dir, filename)
+        shutil.copy(file, dest_file)
+    
     print("============== END OF AUGMENTATION ==============")
 
