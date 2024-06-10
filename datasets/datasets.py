@@ -1,7 +1,6 @@
 import torch
 from torch.utils.data.dataset import Subset
 from sklearn.model_selection import train_test_split
-import sys
 
 from datasets.loader_common import get_machine_type_dict
 from datasets.dcase_dcase202x_t2_loader import DCASE202XT2Loader
@@ -49,10 +48,36 @@ class DCASE202XT2(object):
             use_id=args.use_ids,
             is_auto_download=args.is_auto_download,
         )
-
-        train_index, valid_index = train_test_split(
-            range(len(train_data)), test_size=args.validation_split
+        normal_data = DCASE202XT2Loader(
+            data_path,
+            dataset_name=dataset_name,
+            section_keyword=section_keyword,
+            machine_type=machine_type,
+            train=True,
+            augmented=True,
+            section_ids=self.section_id_list,
+            frames=args.frames,
+            n_mels=args.n_mels,
+            frame_hop_length=args.frame_hop_length,
+            n_fft=args.n_fft,
+            hop_length=args.hop_length,
+            power=args.power,
+            fmax=args.fmax,
+            fmin=args.fmin,
+            win_length=args.win_length,
+            data_type=data_type,
+            use_id=args.use_ids,
+            is_auto_download=args.is_auto_download,
         )
+
+        _, valid_index = train_test_split( range(len(normal_data)), test_size=args.validation_split)
+        train_index , _ = train_test_split(range(len(train_data)), test_size=args.validation_split)
+
+
+        # train_index, valid_index = train_test_split(
+        #     range(len(train_data)), test_size=args.validation_split
+        # )
+
         self.train_dataset = Subset(train_data, train_index)
         self.train_loader = torch.utils.data.DataLoader(
             self.train_dataset,
@@ -67,7 +92,9 @@ class DCASE202XT2(object):
             shuffle=False,
             batch_sampler=batch_sampler,
         )
-
+        print(self.train_dataset)
+        print(f"Train Subset size: {len(self.train_dataset)}")
+        print(f"Validation Subset size: {len(self.valid_dataset)}")
         self.test_loader = []
         if args.train_only:
             return

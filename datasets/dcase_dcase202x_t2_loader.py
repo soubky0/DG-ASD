@@ -19,6 +19,7 @@ class DCASE202XT2Loader(torch.utils.data.Dataset):
         machine_type: str = "ToyCar",
         section_ids=[],
         train=True,
+        augmented=False,
         n_mels=128,
         frames=5,
         frame_hop_length=1,
@@ -41,6 +42,7 @@ class DCASE202XT2Loader(torch.utils.data.Dataset):
 
         target_dir = os.getcwd() + "/" + root + "raw/" + machine_type
         dir_name = "train" if train else "test"
+        dir_name = "normal" if augmented else "train"
 
         self.mode = data_type == "dev"
         if train:
@@ -52,6 +54,8 @@ class DCASE202XT2Loader(torch.utils.data.Dataset):
         ):
             dir_name = "test_rename"
             self.mode = True
+        elif augmented:
+            dir_name = "normal"
         else:
             dir_name = "test"
         
