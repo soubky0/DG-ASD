@@ -103,9 +103,16 @@ def augment(augmentation: Augmentations):
     processed_dir = os.path.join(os.getcwd(), 'dev_data', 'processed', 'gearbox')
 
     try:
+        shutil.rmtree(augmented_dir)
+        shutil.rmtree(validation_dir)
+        shutil.rmtree(train_dir)
         shutil.rmtree(processed_dir)
     except:
         pass
+    
+    os.makedirs(train_dir)
+    os.makedirs(augmented_dir)
+    os.makedirs(validation_dir)
     
     filenames = os.listdir(normal_dir)
     train_filenames, val_filenames = train_test_split(filenames, test_size=0.2)
