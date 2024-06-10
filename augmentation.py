@@ -114,8 +114,11 @@ def augment(augmentation: Augmentations):
     os.makedirs(augmented_dir)
     os.makedirs(validation_dir)
     
+    config = load_config()
+    validation_split =  config.get('--validation_split', 0.1)
+
     filenames = os.listdir(normal_dir)
-    train_filenames, val_filenames = train_test_split(filenames, test_size=0.2)
+    train_filenames, val_filenames = train_test_split(filenames, test_size=validation_split)
     
     print(f"============== BEGIN {augmentation.name} AUGMENTATION ==============")
 
@@ -137,7 +140,11 @@ def augment(augmentation: Augmentations):
         augmented_file = os.path.join(augmented_dir, augmented_filename)
         save_audio(augmented_file, augmented_audio, sr)
     copy_files(augmented_dir, train_dir)
-    copy_files(normal_dir, train_dir)
+
+    for filename in train_filenames:
+        file = os.path.join(normal_dir, filename)
+        dest_file = os.path.join(train_dir, filename)
+        shutil.copy(file, dest_file)
 
     for filename in val_filenames:
         file = os.path.join(normal_dir, filename)

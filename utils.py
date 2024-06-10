@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import os
 import shutil
+import yaml
 
 def plot_spectrogram(wav_file, output_file):
     
@@ -169,3 +170,8 @@ def get_max(file_path):
     print("AUC (source)", max_auc_source)
     print("AUC (target)", max_auc_target)
     print("pAUC", max_pauc)
+
+def load_config(config_path='baseline.yaml'):
+    with open(config_path, 'r') as file:
+        config = yaml.safe_load(file)
+    return config
