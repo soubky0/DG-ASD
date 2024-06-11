@@ -165,3 +165,37 @@ def augment(augmentation: Augmentations, **kwargs):
     
     print("============== END OF AUGMENTATION ==============")
 
+def normal():
+    normal_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'normal')
+    augmented_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'augmented')
+    validation_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'validation')
+    train_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train')
+    processed_dir = os.path.join(os.getcwd(), 'dev_data', 'processed', 'gearbox')
+
+    try:
+        shutil.rmtree(augmented_dir)
+        shutil.rmtree(validation_dir)
+        shutil.rmtree(train_dir)
+        shutil.rmtree(processed_dir)
+    except:
+        pass
+    
+    os.makedirs(train_dir)
+    os.makedirs(augmented_dir)
+    os.makedirs(validation_dir)
+    
+    config = load_config()
+    validation_split =  config.get('--validation_split', 0.1)
+
+    filenames = os.listdir(normal_dir)
+    train_filenames, val_filenames = train_test_split(filenames, test_size=validation_split)
+
+    for filename in train_filenames:
+        file = os.path.join(normal_dir, filename)
+        dest_file = os.path.join(train_dir, filename)
+        shutil.copy(file, dest_file)
+
+    for filename in val_filenames:
+        file = os.path.join(normal_dir, filename)
+        dest_file = os.path.join(validation_dir, filename)
+        shutil.copy(file, dest_file)

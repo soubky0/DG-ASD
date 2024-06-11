@@ -1,4 +1,4 @@
-from augmentation import augment
+from augmentation import augment, normal
 from augmentation import Augmentations
 from model import train, test
 from time import perf_counter
@@ -38,6 +38,7 @@ if __name__ == "__main__":
 
     for i in range(1,6):
         time_start = perf_counter()
+        normal()
         train(f'baseline_{i}')
         test(f'baseline_{i}')
         time_end = perf_counter()
