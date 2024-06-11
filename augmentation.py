@@ -27,9 +27,10 @@ def time_mask_spec(audio, sr, T=20, num_masks=1):
         S[:, int(t0):int(t0 + t)] = 0
 
     S_masked_amplitude = librosa.db_to_amplitude(S)
-    masked_audio = librosa.istft(S_masked_amplitude)
+    audio_masked = librosa.istft(S_masked_amplitude, length=len(audio))
+    audio_masked = librosa.util.normalize(audio_masked)
 
-    return masked_audio
+    return audio_masked
 
 def time_mask(audio, sr, mask_length):
     masked_audio = audio.copy()
