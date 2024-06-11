@@ -2,42 +2,46 @@ from augmentation import augment
 from augmentation import Augmentations
 from model import train, test
 from time import perf_counter
+from utils import rename_directory
 
 def baseline():
-  for i in range(1, 6):
-        time_start = perf_counter()
-        print(f"============== ITERATION {i} ==============")
-        # augment(a)
-        train(f'Baseline_{i}')
-        test(f'Baseline_{i}')
-        time_end = perf_counter()
-        time_duration = time_end - time_start
-        with open('results/baseLine_timings.txt', 'a') as f:
-            f.write(f"Total execution time for Baseline {i}: {time_duration/60} minutes\n")
+    time_start = perf_counter()
+    train('baseline')
+    test('baseline')
+    time_end = perf_counter()
+    time_duration = time_end - time_start
+    with open('results/timings.txt', 'a') as f:
+        f.write(f"Total execution time of Baseline: {time_duration/60} minutes\n")
 
-def all_augmentation():
-    for a in Augmentations:
+def apply_augmentation(a: Augmentations, all=False, **kwargs):
+    if all:
+        for ag in Augmentations:
+            time_start = perf_counter()
+            augment(ag, **kwargs)
+            train(f'{ag.name}')
+            test(f'{ag.name}')
+            time_end = perf_counter()
+            time_duration = time_end - time_start
+            with open('results/timings.txt', 'a') as f:
+                f.write(f"Total execution time of {ag.name}: {time_duration/60} minutes\n")
+    else:
         time_start = perf_counter()
-        print(f"============== AUGMENTATION {a.name} ==============")
-        augment(a)
+        augment(a, **kwargs)
         train(f'{a.name}')
         test(f'{a.name}')
         time_end = perf_counter()
         time_duration = time_end - time_start
-        with open('results/augmentation_timings.txt', 'a') as f:
-            f.write(f"Total execution time for Random Mask Factor {i}: {time_duration/60} minutes\n")
-
+        with open('results/timings.txt', 'a') as f:
+            f.write(f"Total execution time of {a.name}: {time_duration/60} minutes\n")
 
 if __name__ == "__main__":
-    # baseline()
-    # all_augmentation()
-        
-    for i in range(1,6):
-        time_start = perf_counter()
-        augment(Augmentations.TIME_MASK)
-        train(f'TIME_MASK_320_iteration_{i}')
-        test(f'TIME_MASK_320_iteration_{i}')
-        time_end = perf_counter()
-        time_duration = time_end - time_start
-        with open('results/augmentation_timings.txt', 'a') as f:
-            f.write(f"Total execution time for Random Mask Factor {i}: {time_duration/60} minutes\n")
+    for i in range(5):
+        for j in range(5):
+            time_start = perf_counter()
+            augment(Augmentations.TIME_MASK_SPEC, T=j*10, num_masks=i)
+            train(f'time_mask_spec_{i}_{j*10}')
+            test(f'time_mask_spec_{i}_{j*10}')
+            time_end = perf_counter()
+            time_duration = time_end - time_start
+            with open('results/timings.txt', 'a') as f:
+                f.write(f"Total execution time of time_mask_spec_{i}_{j*10}: {time_duration/60} minutes\n")

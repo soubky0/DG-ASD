@@ -11,6 +11,7 @@ def parse_args(tag, score="MSE"):
     flat_param = com.param_to_args_list(params=param)
     flat_param.extend(["-tag", tag])
     flat_param.extend(["--score", score])
+    flat_param.extend(["--export_dir", tag])
     args = parser.parse_args(args=flat_param)
     args = parser.parse_args(namespace=args)
     args.cuda = args.use_cuda and torch.cuda.is_available()

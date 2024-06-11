@@ -10,14 +10,30 @@ from sklearn.model_selection import train_test_split
 
 class Augmentations(Enum):
     TIME_MASK_LIBRARY = "time_mask_audiomentations"
-    TIME_MASK = "time_mask"
+    TIME_MASK_RAW = "time_mask"
+    TIME_MASK_SPEC = "time_mask_spec"
     FREQUENCY_MASK = "frequency_mask"
     TIME_WARP = "time_warp"
     SPEC_AUGMENT = "spec_augment"
 
-def time_mask(audio, sr):
+def time_mask_spec(audio, sr, T=20, num_masks=1):
+    S_amp = librosa.stft(audio)
+    S = librosa.amplitude_to_db(np.abs(S_amp), ref=np.max)
+    num_time_steps = S.shape[1]
+
+    for _ in range(num_masks):
+        t = np.random.uniform(low=0, high=T)
+        t0 = np.random.uniform(low=0, high=num_time_steps - t)
+        S[:, int(t0):int(t0 + t)] = 0
+
+    S_masked_amplitude = librosa.db_to_amplitude(S)
+    masked_audio = librosa.istft(S_masked_amplitude)
+
+    return masked_audio
+
+def time_mask(audio, sr, mask_length):
     masked_audio = audio.copy()
-    mask_length = int(len(audio) / 320) #TODO
+    mask_length = int(len(audio) / mask_length)
     start = np.random.randint(0, len(audio) - mask_length)
     masked_audio[start:start+mask_length] = 0
     return masked_audio
@@ -46,25 +62,16 @@ def freq_mask(audio, sr):
 
 def time_warp(audio, sr):
 
-    # Convert the audio to a mel-spectrogram
     mel_spec = librosa.feature.melspectrogram(y=audio, sr=sr)
-    
-    # Create a time axis
     time_steps = np.arange(mel_spec.shape[1])
-    
-    # Generate a random warp for each time step
     random_warp = np.random.uniform(-0.1, 0.1, mel_spec.shape[1])
     time_steps_warped = time_steps + random_warp
-    
-    # Ensure the warped time steps are within valid bounds
     time_steps_warped = np.clip(time_steps_warped, 0, mel_spec.shape[1] - 1)
-    
-    # Interpolate the warped spectrogram
     mel_spec_warped = np.zeros_like(mel_spec)
+    
     for i in range(mel_spec.shape[0]):
         mel_spec_warped[i] = np.interp(time_steps, time_steps_warped, mel_spec[i])
     
-    # Convert the warped mel-spectrogram back to audio
     warped_audio = librosa.feature.inverse.mel_to_audio(mel_spec_warped, sr=sr)
 
     if len(warped_audio) < len(audio):
@@ -80,9 +87,10 @@ def spec_augment(audio, sr):
 
     return audio
 
-def apply_augmentation(audio, sr, augmentation):    
+def apply_augmentation(audio, sr, augmentation, **kwargs):    
     augmentation_functions = {
-        Augmentations.TIME_MASK: time_mask,
+        Augmentations.TIME_MASK_RAW: time_mask,
+        Augmentations.TIME_MASK_SPEC: time_mask_spec,
         Augmentations.FREQUENCY_MASK: freq_mask,
         Augmentations.TIME_WARP: time_warp,
         Augmentations.SPEC_AUGMENT: spec_augment,
@@ -92,9 +100,9 @@ def apply_augmentation(audio, sr, augmentation):
     if augmentation not in augmentation_functions:
         raise ValueError("Invalid augmentation technique specified.")
     
-    return augmentation_functions[augmentation](audio, sr)
+    return augmentation_functions[augmentation](audio, sr, **kwargs)
 
-def augment(augmentation: Augmentations):
+def augment(augmentation: Augmentations, **kwargs):
     
     normal_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'normal')
     augmented_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'augmented')
@@ -125,7 +133,7 @@ def augment(augmentation: Augmentations):
     for filename in tqdm(train_filenames):
         file = os.path.join(normal_dir, filename)
         audio, sr = load_audio(file)
-        augmented_audio = apply_augmentation(audio, sr, augmentation)
+        augmented_audio = apply_augmentation(audio, sr, augmentation, **kwargs)
         parts = filename.split("_")
 
         count = parts[5]

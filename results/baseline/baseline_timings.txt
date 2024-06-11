@@ -1,5 +1,0 @@
-Total execution time for Baseline 1: 36.348801194166676 minutes
-Total execution time for Baseline 2: 36.073895416716674 minutes
-Total execution time for Baseline 3: 35.986123012916686 minutes
-Total execution time for Baseline 4: 36.08121722798335 minutes
-Total execution time for Baseline 5: 36.02491004914997 minutes

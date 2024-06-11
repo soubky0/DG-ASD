@@ -175,3 +175,14 @@ def load_config(config_path='baseline.yaml'):
     with open(config_path, 'r') as file:
         config = yaml.safe_load(file)
     return config
+
+def rename_directory(old_path, new_path):
+    try:
+        os.rename(old_path, new_path)
+        print(f"Directory renamed from {old_path} to {new_path}")
+    except FileNotFoundError:
+        print(f"The directory {old_path} does not exist.")
+    except PermissionError:
+        print(f"Permission denied. Cannot rename {old_path}.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
