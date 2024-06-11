@@ -35,8 +35,8 @@ def apply_augmentation(a: Augmentations, all=False, **kwargs):
             f.write(f"Total execution time of {a.name}: {time_duration/60} minutes\n")
 
 if __name__ == "__main__":
-    for i in range(5):
-        for j in range(5):
+    for i in range(1,6):
+        for j in range(1,6):
             time_start = perf_counter()
             augment(Augmentations.TIME_MASK_SPEC, T=j*10, num_masks=i)
             train(f'time_mask_spec_{i}_{j*10}')
