@@ -9,10 +9,10 @@ from audiomentations import Compose, TimeMask
 from sklearn.model_selection import train_test_split
 
 class Augmentations(Enum):
-    TIME_MASK_LIBRARY = "time_mask_audiomentations"
-    TIME_MASK_RAW = "time_mask"
+    TIME_MASK_RAW = "time_mask_raw"
     TIME_MASK_SPEC = "time_mask_spec"
     FREQUENCY_MASK = "frequency_mask"
+    TIME_MASK_AUDIOMENTATIONS = "time_mask_audiomentations"
     TIME_WARP = "time_warp"
     SPEC_AUGMENT = "spec_augment"
 
@@ -32,13 +32,16 @@ def time_mask_spec(audio, sr, T=20, num_masks=1):
 
     return audio_masked
 
-def time_mask(audio, sr, mask_length):
+def time_mask_raw(audio, sr, min_T=50, max_T=500, num_masks=1):
     masked_audio = audio.copy()
-    mask_length = int(len(audio) / mask_length)
-    start = np.random.randint(0, len(audio) - mask_length)
-    masked_audio[start:start+mask_length] = 0
-    return masked_audio
+    num_samples = len(masked_audio)
+    
+    for _ in range(num_masks):
+        mask_len = int(np.random.uniform(min_T, max_T) / 1000 * sr)
+        t0 = np.random.randint(0, num_samples - mask_len)
+        masked_audio[t0:t0 + mask_len] = 0
 
+    return masked_audio
 
 def time_mask_audiomentations(audio, sr):
     
@@ -82,7 +85,7 @@ def time_warp(audio, sr):
 
 def spec_augment(audio, sr):
 
-    audio = time_mask(audio, sr)
+    audio = time_mask_spec(audio, sr)
     audio = freq_mask(audio, sr)
     audio = time_warp(audio, sr)
 
@@ -90,12 +93,12 @@ def spec_augment(audio, sr):
 
 def apply_augmentation(audio, sr, augmentation, **kwargs):    
     augmentation_functions = {
-        Augmentations.TIME_MASK_RAW: time_mask,
+        Augmentations.TIME_MASK_RAW: time_mask_raw,
         Augmentations.TIME_MASK_SPEC: time_mask_spec,
         Augmentations.FREQUENCY_MASK: freq_mask,
+        Augmentations.TIME_MASK_AUDIOMENTATIONS: time_mask_audiomentations,
         Augmentations.TIME_WARP: time_warp,
         Augmentations.SPEC_AUGMENT: spec_augment,
-        Augmentations.TIME_MASK_LIBRARY: time_mask_audiomentations
     }
     
     if augmentation not in augmentation_functions:
