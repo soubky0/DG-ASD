@@ -167,13 +167,11 @@ def augment(augmentation: Augmentations, **kwargs):
 
 def normal():
     normal_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'normal')
-    augmented_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'augmented')
     validation_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'validation')
     train_dir = os.path.join(os.getcwd(), 'dev_data', 'raw', 'gearbox', 'train')
     processed_dir = os.path.join(os.getcwd(), 'dev_data', 'processed', 'gearbox')
 
     try:
-        shutil.rmtree(augmented_dir)
         shutil.rmtree(validation_dir)
         shutil.rmtree(train_dir)
         shutil.rmtree(processed_dir)
@@ -181,7 +179,6 @@ def normal():
         pass
     
     os.makedirs(train_dir)
-    os.makedirs(augmented_dir)
     os.makedirs(validation_dir)
     
     config = load_config()
