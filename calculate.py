@@ -82,12 +82,36 @@ def compute_average_results(directory, output_filename):
 
 
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser(description='Compare results of different factors with a baseline and save differences to a CSV file.')
-    # parser.add_argument('sort_by', nargs='?', type=str, help='Sorting metric. Available options: AUC (source), AUC (target), pAUC, pAUC (source), pAUC (target), precision (source), precision (target), recall (source), recall (target), F1 score (source), F1 score (target), hmean (source), hmean (target)')
+   # Corrected directory path provided by the user
+    results_dir = '/home/omar/src/results/dev_data'
 
-    # args = parser.parse_args()
-    # if args.sort_by:
-    #     compare_results(args.sort_by)
-    # else:
-    #     compare_results()
-    result = compute_average_results("baseline","average_result.csv")
+    columns_to_keep = ['AUC (source)', 'AUC (target)', 'pAUC']
+
+    # List to store the dataframes
+    dfs = []
+
+    # Walk through the directory and find all result csv files
+    for root, dirs, files in os.walk(results_dir):
+        for file in files:
+            if file.startswith('result_') and file.endswith('.csv'):
+                file_path = os.path.join(root, file)
+                df = pd.read_csv(file_path)
+                # Drop rows with 'arithmetic mean' and 'harmonic mean'
+                df = df[~df['section'].isin(['arithmetic mean', 'harmonic mean'])]
+                # Drop the first column 'section'
+                df = df.drop(columns=['section'])
+                # Keep only the required columns
+                df = df[columns_to_keep] * 100
+                # Add a column with the filename
+                dir_name = root.split("/")
+                df.insert(0, 'model', dir_name[-1])
+                dfs.append(df)
+
+    # Check if any dataframes were collected
+    if dfs:
+        combined_df = pd.concat(dfs, ignore_index=True)
+        df_sorted = combined_df.sort_values(by='model')
+        output_path = '/home/omar/src/results/combined_results.csv'
+        df_sorted.to_csv(output_path, index=False)
+    else:
+        output_path = "No result CSV files were found in the specified directory."
