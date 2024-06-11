@@ -316,7 +316,7 @@ class DCASE2023T2AE(BaseModel):
                 score_distr_file_path=self.mse_score_distr_file_path
             )
 
-            dir_name = "test"
+        dir_name = "test"
 
         inv_cov_source, inv_cov_target = calc_inv_cov(
             model=self.model, device=self.device
