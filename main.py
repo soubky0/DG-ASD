@@ -44,7 +44,6 @@ if __name__ == "__main__":
         time_duration = time_end - time_start
         with open('results/timings.txt', 'a') as f:
             f.write(f"Total execution time of Baseline {i}: {time_duration/60} minutes\n")
-        post_train(f'baseline_{i}')
 
     for i in [60, 220, 320]:
         for j in range(1,6):
@@ -57,4 +56,3 @@ if __name__ == "__main__":
             with open('results/timings.txt', 'a') as f:
                 f.write(f"Total execution time of time_mask_raw_{i}_{j}: {time_duration/60} minutes\n")
             post_train(f'time_mask_raw_{i}_{j}')
-            

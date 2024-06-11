@@ -5,3 +5,5 @@ __pycache__/
 baseline.log
 env/
 dev_data/raw/
+data
+nohup.out

@@ -6,3 +6,4 @@ Total execution time of time_mask_spec_1_50: 72.74614735275003 minutes
 Total execution time of time_mask_spec_2_10: 73.24466797684994 minutes
 Total execution time of time_mask_spec_2_20: 73.34276584838322 minutes
 Total execution time of time_mask_spec_2_30: 73.5162443188167 minutes
+Total execution time of time_mask_spec_2_40: 75.77095056979996 minutes
