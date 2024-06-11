@@ -186,3 +186,8 @@ def rename_directory(old_path, new_path):
         print(f"Permission denied. Cannot rename {old_path}.")
     except Exception as e:
         print(f"An error occurred: {e}")
+
+def post_train(model_name):
+    src_dir = os.path.join(os.getcwd(), "dev_data")
+    dest_dir = os.path.join(os.getcwd(), "data", model_name)
+    shutil.copytree(src_dir, dest_dir)
