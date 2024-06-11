@@ -46,14 +46,13 @@ if __name__ == "__main__":
         with open('results/timings.txt', 'a') as f:
             f.write(f"Total execution time of Baseline {i}: {time_duration/60} minutes\n")
 
-    for i in [60, 220, 320]:
-        for j in range(1,6):
-            time_start = perf_counter()
-            augment(Augmentations.TIME_MASK_RAW, mask_length=i)
-            train(f'time_mask_raw_{i}_{j}')
-            test(f'time_mask_raw_{i}_{j}')
-            time_end = perf_counter()
-            time_duration = time_end - time_start
-            with open('results/timings.txt', 'a') as f:
-                f.write(f"Total execution time of time_mask_raw_{i}_{j}: {time_duration/60} minutes\n")
-            post_train(f'time_mask_raw_{i}_{j}')
+    for i in range(1,6):
+        time_start = perf_counter()
+        augment(Augmentations.TIME_MASK_RAW, num_masks=i)
+        train(f'time_mask_raw_{i}')
+        test(f'time_mask_raw_{i}')
+        time_end = perf_counter()
+        time_duration = time_end - time_start
+        with open('results/timings.txt', 'a') as f:
+            f.write(f"Total execution time of time_mask_raw_{i}: {time_duration/60} minutes\n")
+        post_train(f'time_mask_raw_{i}')
