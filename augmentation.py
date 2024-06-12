@@ -10,11 +10,21 @@ from sklearn.model_selection import train_test_split
 
 class Augmentations(Enum):
     TIME_MASK_RAW = "time_mask_raw"
+    TIME_MASK_RAW_2 = "time_mask_raw_2"
     TIME_MASK_SPEC = "time_mask_spec"
     FREQUENCY_MASK = "frequency_mask"
     TIME_MASK_AUDIOMENTATIONS = "time_mask_audiomentations"
     TIME_WARP = "time_warp"
     SPEC_AUGMENT = "spec_augment"
+
+def time_mask_raw_2(audio, sr, mask_factor=2):
+
+    masked_audio = audio.copy()
+    mask_length = int(len(audio) / mask_factor)
+    start = np.random.randint(0, len(audio) - mask_length)
+    masked_audio[start:start+mask_length] = 0
+
+    return masked_audio
 
 def time_mask_spec(audio, sr, T=20, num_masks=1):
     S_amp = librosa.stft(audio)
@@ -99,6 +109,7 @@ def apply_augmentation(audio, sr, augmentation, **kwargs):
         Augmentations.TIME_MASK_AUDIOMENTATIONS: time_mask_audiomentations,
         Augmentations.TIME_WARP: time_warp,
         Augmentations.SPEC_AUGMENT: spec_augment,
+        Augmentations.TIME_MASK_RAW_2: time_mask_raw_2,
     }
     
     if augmentation not in augmentation_functions:

@@ -101,7 +101,7 @@ if __name__ == "__main__":
                 # Drop the first column 'section'
                 df = df.drop(columns=['section'])
                 # Keep only the required columns
-                df = df[columns_to_keep] * 100
+                df = round(df[columns_to_keep] * 100, 2)
                 # Add a column with the filename
                 dir_name = root.split("/")
                 df.insert(0, 'model', dir_name[-1])
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     # Check if any dataframes were collected
     if dfs:
         combined_df = pd.concat(dfs, ignore_index=True)
-        df_sorted = combined_df.sort_values(by='model')
+        df_sorted = combined_df.sort_values(by='AUC (source)')
         output_path = '/home/omar/src/results/combined_results.csv'
         df_sorted.to_csv(output_path, index=False)
     else:
