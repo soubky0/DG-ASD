@@ -111,7 +111,7 @@ if __name__ == "__main__":
     if dfs:
         combined_df = pd.concat(dfs, ignore_index=True)
         df_sorted = combined_df.sort_values(by='AUC (source)')
-        output_path = '/home/omar/src/results/combined_results.csv'
+        output_path = '/home/omar/src/results/new_results.csv'
         df_sorted.to_csv(output_path, index=False)
     else:
         output_path = "No result CSV files were found in the specified directory."
