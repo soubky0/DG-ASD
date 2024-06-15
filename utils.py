@@ -31,11 +31,11 @@ def compare_spectrogram(wav_file1, wav_file2, output_file):
 
     plt.subplot(1, 2, 1)
     ld.specshow(D1, sr=sr1, y_axis='linear', x_axis='time', cmap='magma') 
-    plt.title('Spectrogram - File 1')
+    plt.title('Normal Spectrogram')
 
     plt.subplot(1, 2, 2)
     ld.specshow(D2, sr=sr2, y_axis='linear', x_axis='time', cmap='magma') 
-    plt.title('Spectrogram - File 2')
+    plt.title('Augmented Spectrogram')
     
     plt.tight_layout()
     plt.savefig(output_file)
@@ -71,14 +71,14 @@ def compare_waveform(wav_file1, wav_file2, output_file):
     plt.plot(time1, audio1)
     plt.xlabel('Time (s)')
     plt.ylabel('Amplitude')
-    plt.title('Waveform - File 1')
+    plt.title('Normal Waveform')
     plt.grid(True)
     
     plt.subplot(1, 2, 2)
     plt.plot(time2, audio2)
     plt.xlabel('Time (s)')
     plt.ylabel('Amplitude')
-    plt.title('Waveform - File 2')
+    plt.title('Augmented Waveform')
     plt.grid(True)
     
     plt.tight_layout()
