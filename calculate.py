@@ -83,7 +83,7 @@ def compute_average_results(directory, output_filename):
 
 if __name__ == "__main__":
    # Corrected directory path provided by the user
-    results_dir = '/home/omar/src/results/dev_data'
+    results_dir = os.path.join(os.getcwd(), 'results', 'dev_data')
 
     columns_to_keep = ['AUC (source)', 'AUC (target)', 'pAUC']
 
@@ -103,7 +103,7 @@ if __name__ == "__main__":
                 # Keep only the required columns
                 df = round(df[columns_to_keep] * 100, 2)
                 # Add a column with the filename
-                dir_name = root.split("/")
+                dir_name = root.split("\\")
                 df.insert(0, 'model', dir_name[-1])
                 dfs.append(df)
 
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     if dfs:
         combined_df = pd.concat(dfs, ignore_index=True)
         df_sorted = combined_df.sort_values(by='AUC (source)')
-        output_path = '/home/omar/src/results/new_results.csv'
+        output_path = os.path.join(os.getcwd(), 'results', 'new_results.csv')
         df_sorted.to_csv(output_path, index=False)
     else:
         output_path = "No result CSV files were found in the specified directory."

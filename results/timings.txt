@@ -25,3 +25,5 @@ Total execution time of baseline_4: 28.710302932916967 minutes
 Total execution time of baseline_5: 28.380462672216527 minutes
 Total execution time of time_mask_raw_2_60_1: 57.51846319513327 minutes
 Total execution time of time_mask_raw_2_60_2: 55.3394891469 minutes
+Total execution time of time_mask_raw_2_320: 80.70230157333332 minutes
+Total execution time of time_mask_raw_2_320_2: 88.74333714999999 minutes
