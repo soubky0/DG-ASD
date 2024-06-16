@@ -1,6 +1,6 @@
 {
   "model": "DCASE2023T2-AE",
-  "score": "MSE",
+  "score": "MAHALA",
   "seed": 13711,
   "use_cuda": true,
   "gpu_id": [

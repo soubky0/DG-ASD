@@ -46,6 +46,31 @@ def compare_results(sort_by="hmean (source)"):  # Default sort by hmean
     print("Differences between baseline and masking factors (sorted by", sort_by, "):")
     print(reversed_sorted_differences[sort_by])
  
+def  get_results_csv():
+    results_dir = os.path.join(os.getcwd(), 'results', 'dev_data')
+
+    columns_to_keep = ['AUC (source)', 'AUC (target)', 'pAUC']
+
+    dfs = []
+
+    for root, dirs, files in os.walk(results_dir):
+        for file in files:
+            if file.startswith('result_') and file.endswith('.csv'):
+                file_path = os.path.join(root, file)
+                df = pd.read_csv(file_path)
+                df = df[~df['section'].isin(['arithmetic mean', 'harmonic mean'])]
+                df = df.drop(columns=['section'])
+                df = round(df[columns_to_keep] * 100, 2)
+                dir_name = root.split("\\")
+                df.insert(0, 'model', dir_name[-1])
+                dfs.append(df)
+    if dfs:
+        combined_df = pd.concat(dfs, ignore_index=True)
+        df_sorted = combined_df.sort_values(by='AUC (source)')
+        output_path = os.path.join(os.getcwd(), 'results', 'new_results.csv')
+        df_sorted.to_csv(output_path, index=False)
+    else:
+        output_path = "No result CSV files were found in the specified directory."
 
 def compute_average_results(directory, output_filename):
     """
@@ -82,36 +107,4 @@ def compute_average_results(directory, output_filename):
 
 
 if __name__ == "__main__":
-   # Corrected directory path provided by the user
-    results_dir = os.path.join(os.getcwd(), 'results', 'dev_data')
-
-    columns_to_keep = ['AUC (source)', 'AUC (target)', 'pAUC']
-
-    # List to store the dataframes
-    dfs = []
-
-    # Walk through the directory and find all result csv files
-    for root, dirs, files in os.walk(results_dir):
-        for file in files:
-            if file.startswith('result_') and file.endswith('.csv'):
-                file_path = os.path.join(root, file)
-                df = pd.read_csv(file_path)
-                # Drop rows with 'arithmetic mean' and 'harmonic mean'
-                df = df[~df['section'].isin(['arithmetic mean', 'harmonic mean'])]
-                # Drop the first column 'section'
-                df = df.drop(columns=['section'])
-                # Keep only the required columns
-                df = round(df[columns_to_keep] * 100, 2)
-                # Add a column with the filename
-                dir_name = root.split("\\")
-                df.insert(0, 'model', dir_name[-1])
-                dfs.append(df)
-
-    # Check if any dataframes were collected
-    if dfs:
-        combined_df = pd.concat(dfs, ignore_index=True)
-        df_sorted = combined_df.sort_values(by='AUC (source)')
-        output_path = os.path.join(os.getcwd(), 'results', 'new_results.csv')
-        df_sorted.to_csv(output_path, index=False)
-    else:
-        output_path = "No result CSV files were found in the specified directory."
+    get_results_csv()
