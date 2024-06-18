@@ -28,3 +28,10 @@ Total execution time of time_mask_raw_2_60_2: 55.3394891469 minutes
 Total execution time of time_mask_raw_2_320: 80.70230157333332 minutes
 Total execution time of time_mask_raw_2_320_2: 88.74333714999999 minutes
 Total execution time of time_mask_raw_2_320_2: 85.67509382333337 minutes
+Total execution time of time_mask_50: 76.43971614999997 minutes
+Total execution time of time_mask_100: 75.065706715 minutes
+Total execution time of time_mask_150: 76.07740155666664 minutes
+Total execution time of time_mask_200: 76.30422339666669 minutes
+Total execution time of time_mask_250: 76.12485131833334 minutes
+Total execution time of time_mask_300: 75.92105430166679 minutes
+Total execution time of time_mask_350: 75.83000048666678 minutes

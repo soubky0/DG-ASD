@@ -69,6 +69,7 @@ def  get_results_csv():
         df_sorted = combined_df.sort_values(by='AUC (source)')
         output_path = os.path.join(os.getcwd(), 'results', 'new_results.csv')
         df_sorted.to_csv(output_path, index=False)
+        return df_sorted
     else:
         output_path = "No result CSV files were found in the specified directory."
 
@@ -107,4 +108,21 @@ def compute_average_results(directory, output_filename):
 
 
 if __name__ == "__main__":
-    get_results_csv()
+    df = get_results_csv()
+
+    ROWS_TO_KEEP_MSE = []
+    ROWS_TO_KEEP_MAHALA = []
+
+    for i in range(50, 400, 50):
+        ROWS_TO_KEEP_MSE.append(f'time_mask_{i}_MSE')
+        ROWS_TO_KEEP_MAHALA.append(f'time_mask_{i}_MAHALA')
+
+    ROWS_TO_KEEP_MSE.append('baseline_1_MSE')
+    ROWS_TO_KEEP_MAHALA.append('baseline_1_MAHALA')
+    df_MSE = df[df['model'].isin(ROWS_TO_KEEP_MSE)]
+    df_MAHALA = df[df['model'].isin(ROWS_TO_KEEP_MAHALA)]
+    output_path_MSE = os.path.join(os.getcwd(), 'results', 'plot_results_MSE.csv')
+    df_MSE.to_csv(output_path_MSE, index=False)
+    output_path_MAHALA = os.path.join(os.getcwd(), 'results', 'plot_results_MAHALA.csv')
+    df_MAHALA.to_csv(output_path_MAHALA, index=False)
+

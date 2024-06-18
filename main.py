@@ -36,12 +36,13 @@ def apply_augmentation(a: Augmentations, all=False, **kwargs):
 
 if __name__ == "__main__":
     
-    time_start = perf_counter()
-    augment(Augmentations.TIME_MASK_RAW_2, mask_factor=320)
-    train(f'time_mask_raw_old_320_2')
-    test(f'time_mask_raw_old_320_2')
-    time_end = perf_counter()
-    time_duration = time_end - time_start
-    with open('results/timings.txt', 'a') as f:
-        f.write(f"Total execution time of time_mask_raw_2_320_2: {time_duration/60} minutes\n")
-    post_train(f'time_mask_raw_old_320_2')
+    for i in range(50, 400, 50):
+        time_start = perf_counter()
+        augment(Augmentations.TIME_MASK_RAW_2, mask_factor=i)
+        train(f'time_mask_{i}')
+        test(f'time_mask_{i}')
+        time_end = perf_counter()
+        time_duration = time_end - time_start
+        with open('results/timings.txt', 'a') as f:
+            f.write(f"Total execution time of time_mask_{i}: {time_duration/60} minutes\n")
+        post_train(f'time_mask_{i}')
