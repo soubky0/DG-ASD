@@ -1,3 +1,5 @@
 model,AUC (source),AUC (target),pAUC
+time_mask_75_MSE,60.32,61.1,51.53
 time_mask_50_MSE,62.02,59.22,52.53
 time_mask_50_MAHALA,69.26,68.2,53.26
+time_mask_75_MAHALA,70.08,70.8,53.42
