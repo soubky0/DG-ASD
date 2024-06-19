@@ -1,48 +1,27 @@
-from augmentation import augment, normal
-from augmentation import Augmentations
-from model import train, test
+import sys
+import os
 from time import perf_counter
+from augmentation import augment, Augmentations
+from model import train, test
 from utils import post_train
+import argparse
 
-def baseline():
+def main(mask_factor):
     time_start = perf_counter()
-    train('baseline')
-    test('baseline')
+    augment(Augmentations.TIME_MASK_RAW_2, mask_factor=mask_factor)
+    train(f'time_mask_{mask_factor}', mask_factor=mask_factor)
+    test(f'time_mask_{mask_factor}', mask_factor=mask_factor)
     time_end = perf_counter()
     time_duration = time_end - time_start
-    with open('results/timings.txt', 'a') as f:
-        f.write(f"Total execution time of Baseline: {time_duration/60} minutes\n")
 
-def apply_augmentation(a: Augmentations, all=False, **kwargs):
-    if all:
-        for ag in Augmentations:
-            time_start = perf_counter()
-            augment(ag, **kwargs)
-            train(f'{ag.name}')
-            test(f'{ag.name}')
-            time_end = perf_counter()
-            time_duration = time_end - time_start
-            with open('results/timings.txt', 'a') as f:
-                f.write(f"Total execution time of {ag.name}: {time_duration/60} minutes\n")
-    else:
-        time_start = perf_counter()
-        augment(a, **kwargs)
-        train(f'{a.name}')
-        test(f'{a.name}')
-        time_end = perf_counter()
-        time_duration = time_end - time_start
-        with open('results/timings.txt', 'a') as f:
-            f.write(f"Total execution time of {a.name}: {time_duration/60} minutes\n")
+    with open('results/timings.txt', 'a') as f:
+        f.write(f"Total execution time of time_mask_{mask_factor}: {time_duration/60} minutes\n")
+
+    post_train(f'time_mask_{mask_factor}')
 
 if __name__ == "__main__":
-    
-    for i in range(50, 400, 50):
-        time_start = perf_counter()
-        augment(Augmentations.TIME_MASK_RAW_2, mask_factor=i)
-        train(f'time_mask_{i}')
-        test(f'time_mask_{i}')
-        time_end = perf_counter()
-        time_duration = time_end - time_start
-        with open('results/timings.txt', 'a') as f:
-            f.write(f"Total execution time of time_mask_{i}: {time_duration/60} minutes\n")
-        post_train(f'time_mask_{i}')
+    parser = argparse.ArgumentParser(description="Run augmentation and training")
+    parser.add_argument("--mask_factor", type=int, required=True, help="Mask factor for augmentation")
+    args = parser.parse_args()
+
+    main(args.mask_factor)
