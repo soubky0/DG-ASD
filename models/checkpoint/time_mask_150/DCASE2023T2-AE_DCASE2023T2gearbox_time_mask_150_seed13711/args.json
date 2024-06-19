@@ -36,5 +36,6 @@
   "checkpoint_path": "",
   "train_only": false,
   "test_only": false,
+  "mask_factor": 150.0,
   "cuda": false
 }
