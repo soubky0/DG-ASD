@@ -210,4 +210,10 @@ def get_argparse():
     parser.add_argument(
         "--test_only", action="store_true", default=False, help="Run test only"
     )
+    parser.add_argument(
+        "--mask_factor",
+        type=float,
+        default=None,
+        help="Mask factor for training",
+    )
     return parser

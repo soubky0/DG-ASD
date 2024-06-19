@@ -20,8 +20,6 @@ def main(mask_factor):
     post_train(f'time_mask_{mask_factor}')
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run augmentation and training")
-    parser.add_argument("--mask_factor", type=int, required=True, help="Mask factor for augmentation")
-    args = parser.parse_args()
+    mask_factor = int(sys.argv[2])
 
-    main(args.mask_factor)
+    main(mask_factor)
