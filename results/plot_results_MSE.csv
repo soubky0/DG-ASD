@@ -1,0 +1,2 @@
+model,AUC (source),AUC (target),pAUC
+time_mask_50_MSE,62.02,59.22,52.53

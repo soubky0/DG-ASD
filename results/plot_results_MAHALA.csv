@@ -1,0 +1,2 @@
+model,AUC (source),AUC (target),pAUC
+time_mask_50_MAHALA,69.26,68.2,53.26
