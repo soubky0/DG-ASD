@@ -5,6 +5,7 @@ time_mask_125_MSE,60.26,60.42,53.74
 time_mask_75_MSE,60.32,61.1,51.53
 time_mask_175_MSE,60.72,59.74,52.74
 time_mask_200_MSE,61.04,59.84,52.79
+time_mask_225_MSE,61.26,60.42,53.16
 time_mask_50_MSE,62.02,59.22,52.53
 time_mask_150_MAHALA,68.62,68.8,54.53
 time_mask_50_MAHALA,69.26,68.2,53.26
@@ -13,3 +14,4 @@ time_mask_75_MAHALA,70.08,70.8,53.42
 time_mask_125_MAHALA,70.62,70.0,54.53
 time_mask_175_MAHALA,71.32,69.48,53.79
 time_mask_200_MAHALA,71.98,69.42,53.74
+time_mask_225_MAHALA,72.32,71.58,53.95
