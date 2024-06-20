@@ -30,12 +30,12 @@
   "use_ids": [],
   "is_auto_download": false,
   "result_directory": "./results",
-  "export_dir": "time_mask_425",
-  "model_name_suffix": "time_mask_425",
+  "export_dir": "time_mask_450",
+  "model_name_suffix": "time_mask_450",
   "restart": false,
   "checkpoint_path": "",
   "train_only": false,
   "test_only": false,
-  "mask_factor": 425.0,
+  "mask_factor": 450.0,
   "cuda": false
 }
