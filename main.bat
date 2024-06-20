@@ -1,7 +1,7 @@
 @echo off
 
 REM Define the range and step
-set start=75
+set start=425
 set end=500
 set step=25
 

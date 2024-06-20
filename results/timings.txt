@@ -13,3 +13,4 @@ Total execution time of time_mask_325: 83.40847518333334 minutes
 Total execution time of time_mask_350: 83.6710403266666 minutes
 Total execution time of time_mask_375: 83.88858385333346 minutes
 Total execution time of time_mask_400: 83.25327449333345 minutes
+Total execution time of time_mask_425: 83.815517175 minutes
