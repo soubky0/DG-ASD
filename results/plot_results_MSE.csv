@@ -1,3 +1,4 @@
 model,AUC (source),AUC (target),pAUC
+time_mask_150_MSE,59.36,60.5,51.68
 time_mask_100_MSE,59.76,58.88,50.05
 time_mask_50_MSE,62.02,59.22,52.53
