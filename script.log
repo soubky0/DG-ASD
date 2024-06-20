@@ -133,3 +133,25 @@ To https://github.com/soubky0/DG-ASD.git
 Iteration 175 results pushed to GitHub 
 Running iteration 200 
 Iteration 200 completed 
+warning: in the working copy of 'script.log', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'results/dev_data/time_mask_200_MAHALA/anomaly_score_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_200.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'results/dev_data/time_mask_200_MAHALA/decision_result_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_200.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'results/dev_data/time_mask_200_MAHALA/result_DCASE2023T2gearbox_test_seed13711_time_mask_200_roc.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'results/dev_data/time_mask_200_MSE/anomaly_score_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_200.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'results/dev_data/time_mask_200_MSE/decision_result_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_200.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'results/dev_data/time_mask_200_MSE/result_DCASE2023T2gearbox_test_seed13711_time_mask_200_roc.csv', LF will be replaced by CRLF the next time Git touches it
+[main 69345b2] Iteration 200 completed
+ 19 files changed, 3564 insertions(+), 100 deletions(-)
+ create mode 100644 results/dev_data/time_mask_200_MAHALA/DCASE2023T2-AE_DCASE2023T2gearbox_time_mask_200_anm_score.png
+ create mode 100644 results/dev_data/time_mask_200_MAHALA/anomaly_score_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_200.csv
+ create mode 100644 results/dev_data/time_mask_200_MAHALA/decision_result_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_200.csv
+ create mode 100644 results/dev_data/time_mask_200_MAHALA/result_DCASE2023T2gearbox_test_seed13711_time_mask_200_roc.csv
+ create mode 100644 results/dev_data/time_mask_200_MSE/DCASE2023T2-AE_DCASE2023T2gearbox_time_mask_200_anm_score.png
+ create mode 100644 results/dev_data/time_mask_200_MSE/anomaly_score_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_200.csv
+ create mode 100644 results/dev_data/time_mask_200_MSE/decision_result_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_200.csv
+ create mode 100644 results/dev_data/time_mask_200_MSE/result_DCASE2023T2gearbox_test_seed13711_time_mask_200_roc.csv
+To https://github.com/soubky0/DG-ASD.git
+   e6d1638..69345b2  main -> main
+Iteration 200 results pushed to GitHub 
+Running iteration 225 
+Iteration 225 completed 

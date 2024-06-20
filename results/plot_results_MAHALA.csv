@@ -2,3 +2,4 @@ model,AUC (source),AUC (target),pAUC
 time_mask_150_MAHALA,68.62,68.8,54.53
 time_mask_50_MAHALA,69.26,68.2,53.26
 time_mask_100_MAHALA,69.64,68.84,52.05
+time_mask_200_MAHALA,71.98,69.42,53.74
