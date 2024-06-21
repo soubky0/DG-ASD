@@ -1,3 +1,31 @@
  
 Running iteration 450 
 Iteration 450 completed 
+warning: in the working copy of 'results/dev_data/time_mask_450_MAHALA/anomaly_score_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_450.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'results/dev_data/time_mask_450_MAHALA/decision_result_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_450.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'results/dev_data/time_mask_450_MAHALA/result_DCASE2023T2gearbox_test_seed13711_time_mask_450_roc.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'results/dev_data/time_mask_450_MSE/anomaly_score_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_450.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'results/dev_data/time_mask_450_MSE/decision_result_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_450.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'results/dev_data/time_mask_450_MSE/result_DCASE2023T2gearbox_test_seed13711_time_mask_450_roc.csv', LF will be replaced by CRLF the next time Git touches it
+[main 4ffa1aa] Iteration 450 completed
+ 19 files changed, 3507 insertions(+), 2554 deletions(-)
+ create mode 100644 logs/time_mask_450/DCASE2023T2-AE_DCASE2023T2gearbox_time_mask_450_seed13711/log.csv
+ create mode 100644 logs/time_mask_450/DCASE2023T2-AE_DCASE2023T2gearbox_time_mask_450_seed13711/log.png
+ create mode 100644 models/checkpoint/time_mask_450/DCASE2023T2-AE_DCASE2023T2gearbox_time_mask_450_seed13711/args.json
+ create mode 100644 models/checkpoint/time_mask_450/DCASE2023T2-AE_DCASE2023T2gearbox_time_mask_450_seed13711/checkpoint.tar
+ create mode 100644 models/saved_model/time_mask_450/DCASE2023T2-AE_DCASE2023T2gearbox_time_mask_450_seed13711.pth
+ create mode 100644 models/saved_model/time_mask_450/score_distr_DCASE2023T2-AE_DCASE2023T2gearbox_time_mask_450_seed13711_mahala.pickle
+ create mode 100644 models/saved_model/time_mask_450/score_distr_DCASE2023T2-AE_DCASE2023T2gearbox_time_mask_450_seed13711_mse.pickle
+ create mode 100644 results/dev_data/time_mask_450_MAHALA/DCASE2023T2-AE_DCASE2023T2gearbox_time_mask_450_anm_score.png
+ create mode 100644 results/dev_data/time_mask_450_MAHALA/anomaly_score_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_450.csv
+ create mode 100644 results/dev_data/time_mask_450_MAHALA/decision_result_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_450.csv
+ create mode 100644 results/dev_data/time_mask_450_MAHALA/result_DCASE2023T2gearbox_test_seed13711_time_mask_450_roc.csv
+ create mode 100644 results/dev_data/time_mask_450_MSE/DCASE2023T2-AE_DCASE2023T2gearbox_time_mask_450_anm_score.png
+ create mode 100644 results/dev_data/time_mask_450_MSE/anomaly_score_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_450.csv
+ create mode 100644 results/dev_data/time_mask_450_MSE/decision_result_DCASE2023T2gearbox_section_00_test_seed13711_time_mask_450.csv
+ create mode 100644 results/dev_data/time_mask_450_MSE/result_DCASE2023T2gearbox_test_seed13711_time_mask_450_roc.csv
+To https://github.com/soubky0/DG-ASD.git
+   9d9ae61..4ffa1aa  main -> main
+Iteration 450 results pushed to GitHub 
+Running iteration 475 
+Iteration 475 completed 
